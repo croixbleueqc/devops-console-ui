@@ -1,0 +1,37 @@
+<RCC>
+    <qresource prefix="/">
+        <file>ui/sccs/Search.qml</file>
+        <file>backend/sccs/Repositories.qml</file>
+        <file>backend/sccs/RepositoryDeployConfig.qml</file>
+        <file>backend/core/NetworkGet.qml</file>
+        <file>backend/core/NetworkPut.qml</file>
+        <file>backend/sccs/RepositoryDeployUpdate.qml</file>
+        <file>backend/core/network.js</file>
+        <file>backend/core/NetworkAbstract.qml</file>
+        <file>ui/layouts/CoreLayout.qml</file>
+        <file>ui/pages/NotFoundPage.qml</file>
+        <file>ui/core/Header.qml</file>
+        <file>ui/pages/SccsDeployPage.qml</file>
+        <file>ui/core/Navigation.qml</file>
+        <file>backend/core/WSCom.qml</file>
+        <file>backend/core/WSComOne.qml</file>
+        <file>backend/core/WSNetworkAbstract.qml</file>
+        <file>backend/core/qmldir</file>
+        <file>ui/pages/ExperimentalPage.qml</file>
+        <file>backend/core/Store.qml</file>
+        <file>backend/core/StoreLoader.qml</file>
+        <file>backend/core/StoreUse.qml</file>
+        <file>ui/sccs/DeployProject.qml</file>
+        <file>ui/sccs/Deploy.qml</file>
+        <file>ui/common/Card.qml</file>
+        <file>ui/pages/ParametersPage.qml</file>
+        <file>ui/layouts/SimpleLayout.qml</file>
+        <file>ui/pages/LoginPage.qml</file>
+        <file>entrypoint/WebEntry.qml</file>
+        <file>entrypoint/MainAbstract.qml</file>
+        <file>ui/pages/WelcomePage.qml</file>
+        <file>entrypoint/GenericEntry.qml</file>
+        <file>backend/sccs/PluginSettings.qml</file>
+        <file>ui/sccs/PluginSettings.qml</file>
+    </qresource>
+</RCC>

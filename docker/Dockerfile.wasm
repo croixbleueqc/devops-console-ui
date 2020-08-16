@@ -1,0 +1,20 @@
+FROM croixbleueqc/qt5-wasm-builder:latest AS builder
+
+ARG BACKEND="ws://localhost:5000/wscom1"
+
+COPY . .
+
+# TODO: rework to have a runtime configuration support
+RUN sed -i "s|url:.*|url: \"$BACKEND\"|" backend/core/WSComOne.qml
+
+RUN source /opt/qt5-wasm/qtwasm_env.sh && \
+    qmake && \
+    make
+
+FROM nginx:latest
+
+COPY --from=builder /usr/src/app/*.js /usr/share/nginx/html/ 
+COPY --from=builder /usr/src/app/*.wasm /usr/share/nginx/html/ 
+COPY --from=builder /usr/src/app/*.svg /usr/share/nginx/html/ 
+COPY --from=builder /usr/src/app/*.html /usr/share/nginx/html/index.html
+

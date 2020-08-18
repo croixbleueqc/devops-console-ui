@@ -7,7 +7,7 @@ Item {
     id: root
 
     property alias project: data.repositoryName
-    readonly property alias commitsAvailable: data.commits
+    readonly property alias availables: data.availables
 
     height: Math.max(contents.visible ? contents.height : 0, processing.visible ? processing.height : 0, incompatible.visible ? incompatible.height : 0)
     width: Math.max(contents.visible ? contents.width : 0, processing.visible ? processing.width : 0, incompatible.visible ? incompatible.width : 0)
@@ -45,15 +45,14 @@ Item {
         }
 
         Repeater {
-            id: branches
-            model: data.branches
+            model: data.environments
 
             Deploy {
-                branchName: modelData.branch
+                environment: modelData.environment
                 width: 470
 
-                commit: modelData.commit
-                commitsAvailable: root.commitsAvailable
+                version: modelData.version
+                availables: root.availables
                 readOnly: modelData.readonly !== undefined ? modelData.readonly : false
                 repositoryName: root.project
             }

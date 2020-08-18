@@ -5,20 +5,17 @@ WSNetworkAbstract {
     id: root
 
     property string repositoryName: ""
-    property var branches: []
-    property var commits: []
+    property var environments: []
+    property var availables: []
 
     com: WSComOne
     autoReset: true
 
-    request: "sccs::/passthrough"
+    request: "sccs:read:/repository/cd/config"
     dataRequest: {
         "plugin": Store.sccs_plugin_settings.plugin,
-        "request": "deploy:config",
         "session": Store.sccs_plugin_settings.sessionObj,
-        "args": {
-            "name": repositoryName
-        }
+        "repository": repositoryName
     }
 
     onDataRequestChanged: repositoryName !== "" && send()
@@ -26,24 +23,24 @@ WSNetworkAbstract {
     onDataResponseChanged: {
         if (dataResponse === undefined || dataResponse === null) {
             // Data unavailable
-            commits = []
-            branches = []
+            environments = []
+            availables = []
             return
         }
 
         var pipelinesForUi = []
 
-        for (const pipeline of dataResponse.pipelines) {
+        for (const pipeline of dataResponse.availables) {
             pipelinesForUi.push(
                         {
                             build: pipeline.build,
-                            commit: pipeline.commit,
-                            display: pipeline.build + " - " + pipeline.commit
+                            version: pipeline.version,
+                            display: pipeline.build + " - " + pipeline.version
                         })
         }
 
-        commits = pipelinesForUi
-        branches = dataResponse.branches
+        availables = pipelinesForUi
+        environments = dataResponse.environments
     }
 
     onErrorChanged: {

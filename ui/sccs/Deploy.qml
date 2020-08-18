@@ -7,11 +7,11 @@ import "../common"
 Item {
     id: root
 
-    property alias branchName: backend.branchName
+    property alias environment: backend.environment
     property alias repositoryName: backend.repositoryName
 
-    property var commitsAvailable: []
-    property string commit: ""
+    property var availables: []
+    property string version: ""
     property bool readOnly: false
 
     height: main.height + 20 + Math.max((controls.visible ? controls.height : 0), (applying.visible ? applying.height : 0))
@@ -21,18 +21,18 @@ Item {
     }
 
     function updateCurrentIndex() {
-        commits.currentIndex = commits.indexOfValue(commit);
+        versions.currentIndex = versions.indexOfValue(version);
     }
 
-    onCommitChanged: updateCurrentIndex()
-    onCommitsAvailableChanged: updateCurrentIndex()
+    onVersionChanged: updateCurrentIndex()
+    onAvailablesChanged: updateCurrentIndex()
 
     Backend.RepositoryDeployUpdate {
         id: backend
-        commit: commits.currentIndex !== -1 ? commits.currentValue : ""
+        version: versions.currentIndex !== -1 ? versions.currentValue : ""
 
         onSuccess: {
-            root.commit = commits.currentValue
+            root.version = versions.currentValue
         }
 
         onErrorChanged: {
@@ -48,11 +48,11 @@ Item {
             when: backend.processing
             PropertyChanges { target: controls; opacity: 0.0}
             PropertyChanges { target: applying; opacity: 1.0}
-            PropertyChanges { target: commits; enabled: false}
+            PropertyChanges { target: versions; enabled: false}
         },
         State {
             name: "Validation"
-            when: !backend.processing && commits.currentIndex !== commits.indexOfValue(commit)
+            when: !backend.processing && versions.currentIndex !== versions.indexOfValue(version)
             PropertyChanges { target: controls; opacity: 1.0 }
             PropertyChanges { target: applying; opacity: 0.0}
         },
@@ -76,7 +76,7 @@ Item {
 
             Text {
                 id: branch
-                text: branchName
+                text: environment
 
                 width: parent.width
 
@@ -84,15 +84,15 @@ Item {
             }
 
             ComboBox {
-                id: commits
+                id: versions
                 width: parent.width
 
                 enabled: !readOnly
 
                 textRole: "display"
-                valueRole: "commit"
+                valueRole: "version"
 
-                model: commitsAvailable
+                model: availables
 
                 Component.onCompleted: {
                     updateCurrentIndex();
@@ -115,7 +115,7 @@ Item {
                 text: qsTr("Cancel")
 
                 onClicked: {
-                    commits.currentIndex = commits.indexOfValue(commit)
+                    versions.currentIndex = versions.indexOfValue(version)
                 }
             }
 

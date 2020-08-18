@@ -16,21 +16,17 @@ Item {
             page: "../pages/WelcomePage.qml"
         },
         {
-            name: "404",
-            page: "../pages/NotFoundPage.qml"
-        },
-        {
             name: "Sccs / Deploy",
             page: "../pages/SccsDeployPage.qml"
         },
         {
             name: "Parameters",
             page: "../pages/ParametersPage.qml"
-        },
-        {
-            name: "Experimental",
-            page: "../pages/ExperimentalPage.qml"
         }
+//        ,{
+//            name: "Experimental",
+//            page: "../pages/ExperimentalPage.qml"
+//        }
 
     ]
 

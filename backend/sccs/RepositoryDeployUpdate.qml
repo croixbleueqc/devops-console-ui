@@ -5,12 +5,18 @@ WSNetworkAbstract {
     id: root
 
     property string repositoryName: ""
-    property string branchName: ""
-    property string commit: ""
+    property string environment: ""
+    property string version: ""
 
     com: WSComOne
 
-    request: "sccs:update:/repository/deploy"
+    request: "sccs:write:/repository/cd/trigger"
 
-    dataRequest: { "repository": repositoryName, "branch": branchName, "commit": commit }
+    dataRequest: {
+        "plugin": Store.sccs_plugin_settings.plugin,
+        "session": Store.sccs_plugin_settings.sessionObj,
+        "repository": repositoryName,
+        "environment": environment,
+        "version": version
+    }
 }

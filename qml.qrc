@@ -24,7 +24,7 @@
         <file>ui/sccs/DeployProject.qml</file>
         <file>ui/sccs/Deploy.qml</file>
         <file>ui/common/Card.qml</file>
-        <file>ui/pages/ParametersPage.qml</file>
+        <file>ui/pages/SccsParametersPage.qml</file>
         <file>ui/layouts/SimpleLayout.qml</file>
         <file>ui/pages/LoginPage.qml</file>
         <file>entrypoint/WebEntry.qml</file>
@@ -33,5 +33,8 @@
         <file>entrypoint/GenericEntry.qml</file>
         <file>backend/sccs/PluginSettings.qml</file>
         <file>ui/sccs/PluginSettings.qml</file>
+        <file>ui/sccs/ProjectSettings.qml</file>
+        <file>backend/sccs/ProjectSettings.qml</file>
+        <file>ui/pages/ProjectParametersPage.qml</file>
     </qresource>
 </RCC>

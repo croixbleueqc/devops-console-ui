@@ -20,8 +20,12 @@ Item {
             page: "../pages/SccsDeployPage.qml"
         },
         {
-            name: "Parameters",
-            page: "../pages/ParametersPage.qml"
+            name: "Sccs Parameters",
+            page: "../pages/SccsParametersPage.qml"
+        },
+        {
+            name: "Project Parameters",
+            page: "../pages/ProjectParametersPage.qml"
         }
 //        ,{
 //            name: "Experimental",
@@ -35,6 +39,7 @@ Item {
 
     // DevOps Sccs Plugin Settings
     property Sccs.PluginSettings sccs_plugin_settings: Sccs.PluginSettings {}
+    property Sccs.ProjectSettings sccs_project_settings: Sccs.ProjectSettings {}
 
     /* POC
 

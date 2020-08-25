@@ -9,7 +9,7 @@ RUN sed -i "s|url:.*|url: \"$BACKEND\"|" backend/core/WSComOne.qml
 
 RUN source /opt/qt5-wasm/qtwasm_env.sh && \
     qmake && \
-    make
+    make -j$(nproc)
 
 FROM nginx:latest
 

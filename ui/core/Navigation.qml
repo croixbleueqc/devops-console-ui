@@ -15,6 +15,20 @@ Drawer {
     ColumnLayout {
         anchors.fill: parent
 
+        Rectangle {
+            Layout.fillWidth: true
+            height: title.height * 2
+            color: "grey"
+
+            Text {
+                id: title
+                text: qsTr("DevOps Console")
+                padding: 10
+                color: "white"
+                font.bold: true
+            }
+        }
+
         ListView {
             Layout.fillWidth: true
             Layout.fillHeight: true
@@ -26,25 +40,38 @@ Drawer {
                 width: parent.width
 
                 onClicked: {
-                    if(router !== null) {
-                        router.replace(modelData.page)
-                    }
                     root.close()
+                    root.openPage(modelData.page)
                 }
             }
 
             ScrollIndicator.vertical: ScrollIndicator {}
+
+            boundsBehavior: Flickable.StopAtBounds
         }
 
         Rectangle {
             Layout.fillWidth: true
             implicitHeight: 1
-            color: "black"
+            color: "grey"
         }
 
-        Text {
-            padding: 10
-            text: Store.user
+        User {
+            showLanguage: false
+            onSettingsClicked: {
+                root.close()
+                root.openParametersPage()
+            }
         }
+    }
+
+    function openPage(page) {
+        if(router !== null) {
+            router.replace(page)
+        }
+    }
+
+    function openParametersPage() {
+        openPage("../pages/ParametersPage.qml")
     }
 }

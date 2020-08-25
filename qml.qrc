@@ -33,5 +33,7 @@
         <file>entrypoint/GenericEntry.qml</file>
         <file>backend/sccs/PluginSettings.qml</file>
         <file>ui/sccs/PluginSettings.qml</file>
+        <file>ui/core/User.qml</file>
+        <file>ui/common/Suggestion.qml</file>
     </qresource>
 </RCC>

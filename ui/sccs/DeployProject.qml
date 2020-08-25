@@ -10,7 +10,6 @@ Item {
     readonly property alias availables: data.availables
 
     height: Math.max(contents.visible ? contents.height : 0, processing.visible ? processing.height : 0, incompatible.visible ? incompatible.height : 0)
-    width: Math.max(contents.visible ? contents.width : 0, processing.visible ? processing.width : 0, incompatible.visible ? incompatible.width : 0)
 
     Backend.RepositoryDeployConfig {
         id: data
@@ -21,7 +20,7 @@ Item {
         visible: data.processing
         running: visible
 
-        width: 48
+        width: parent.width
         height: 48
     }
 
@@ -30,6 +29,9 @@ Item {
         visible: !data.processing && data.dataResponse === null && data.repositoryName !== ""
 
         text: qsTr("%1 is not compatible !").arg(data.repositoryName)
+
+        width: parent.width
+        horizontalAlignment: Qt.AlignHCenter
     }
 
     Column {
@@ -45,11 +47,11 @@ Item {
         }
 
         Repeater {
-            model: data.environments
+            model: data.repositoryName !== "" ? data.environments : null
 
             Deploy {
                 environment: modelData.environment
-                width: 470
+                width: root.width
 
                 version: modelData.version
                 availables: root.availables

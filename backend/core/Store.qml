@@ -18,10 +18,6 @@ Item {
         {
             name: "Sccs / Deploy",
             page: "../pages/SccsDeployPage.qml"
-        },
-        {
-            name: "Parameters",
-            page: "../pages/ParametersPage.qml"
         }
 //        ,{
 //            name: "Experimental",
@@ -32,6 +28,12 @@ Item {
 
     // default router
     property QtObject defaultRouter: null
+
+    // languages supported
+    property var languagesSupported: [
+        qsTr("English"),
+        qsTr("Français")
+    ]
 
     // DevOps Sccs Plugin Settings
     property Sccs.PluginSettings sccs_plugin_settings: Sccs.PluginSettings {}

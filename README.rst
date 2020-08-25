@@ -9,6 +9,14 @@ The main target for now is WebAssembly and Desktop (Mobile applications will fol
 Build
 -----
 
+Prerequisite
+^^^^^^^^^^^^
+
+.. code:: bash
+
+   # update/init submodules if necessary
+   git submodule update --init --recursive
+
 WebAssembly
 ^^^^^^^^^^^
 

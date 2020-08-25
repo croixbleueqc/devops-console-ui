@@ -9,5 +9,8 @@ Page {
 
     header: Header {
         id: header
+
+        showApplicationMenu: false
+        showUser: false
     }
 }

@@ -3,41 +3,33 @@ import QtQuick.Controls 2.12
 
 import "../../backend/sccs" as Backend
 
+import "../common"
+
 //import "../../backend/core"
 
 Item {
     id: root
 
-    height: combobox.height
+    height: suggestions.height
 
-    property alias currentText: combobox.currentText
+    property string currentText: suggestions.selected !== null ? suggestions.selected.name : ""
 
     Backend.Repositories {
         id: repos
     }
 
-//    StoreUse {
-//        id: repositories
-//        module: "repos"
-
-//        // Component.onCompleted: item.send()
-//    }
-
-    ComboBox {
-        id: combobox
+    Suggestion {
+        id: suggestions
 
         width: root.width
-        model: repos.dataResponse
-//        model: repositories.item === null ? null : repositories.item.dataResponse
 
-        textRole: "name"
+        filterRoleName: "name"
+        maxVisibleSuggestions: 4
+        showAdd: false
+        suggestionToText: (suggestion) => suggestion.name
 
-        editable: true
+        json: repos.dataResponse
 
-        onAccepted: {
-            if (find(editText) === -1) {
-                console.log("nothing to do")
-            }
-        }
+        loading: repos.processing
     }
 }

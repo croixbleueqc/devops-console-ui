@@ -1,3 +1,6 @@
 [submodule "external/SortFilterProxyModel"]
 	path = external/SortFilterProxyModel
 	url = https://github.com/oKcerG/SortFilterProxyModel
+[submodule "external/android_openssl"]
+	path = external/android_openssl
+	url = https://github.com/KDAB/android_openssl

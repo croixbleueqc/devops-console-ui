@@ -23,6 +23,11 @@ oauth2 {
 # external projects
 include("./external/SortFilterProxyModel/SortFilterProxyModel.pri")
 
+android {
+    message("Include OpenSSL libs for Android")
+    include("./external/android_openssl/openssl.pri")
+}
+
 # The following define makes your compiler emit warnings if you use
 # any Qt feature that has been marked deprecated (the exact warnings
 # depend on your compiler). Refer to the documentation for the

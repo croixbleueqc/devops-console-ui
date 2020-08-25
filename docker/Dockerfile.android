@@ -1,0 +1,19 @@
+FROM qt5-android-builder:latest AS builder
+
+ARG BACKEND="ws://localhost:5000/wscom1"
+
+COPY . devops/
+
+# TODO: rework to have a runtime configuration support
+RUN sed -i "s|url:.*|url: \"$BACKEND\"|" devops/backend/core/WSComOne.qml
+
+RUN cd devops && \
+    qmake && \
+    make -j$(nproc) apk
+
+FROM nginx:latest
+
+COPY --from=builder /usr/src/app/devops/android-build/*.apk /usr/share/nginx/html/ 
+RUN rm -f /usr/share/nginx/html/index.html
+RUN sed -i 's|location / {|location / {\n        autoindex on;|' /etc/nginx/conf.d/default.conf
+

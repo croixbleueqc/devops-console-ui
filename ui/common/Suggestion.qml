@@ -55,7 +55,8 @@ Item {
         id: search
         focus: true
         width: parent.width
-        //height: Math.max(contentHeight, add.height)
+
+        inputMethodHints: Qt.ImhNoPredictiveText
 
         rightPadding: add.width + clear.width
 

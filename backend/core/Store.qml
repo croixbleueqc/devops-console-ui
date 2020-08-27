@@ -16,8 +16,8 @@ Item {
             page: "../pages/WelcomePage.qml"
         },
         {
-            name: "Sccs / Deploy",
-            page: "../pages/SccsDeployPage.qml"
+            name: qsTr("Continuous Deployment"),
+            page: "../pages/ContinuousDeploymentPage.qml"
         }
 //        ,{
 //            name: "Experimental",

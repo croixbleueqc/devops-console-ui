@@ -6,12 +6,12 @@ import "../../backend/sccs" as Backend
 Item {
     id: root
 
-    property alias project: data.repositoryName
+    property alias repositoryName: data.repositoryName
     readonly property alias availables: data.availables
 
     height: Math.max(contents.visible ? contents.height : 0, processing.visible ? processing.height : 0, incompatible.visible ? incompatible.height : 0)
 
-    Backend.RepositoryDeployConfig {
+    Backend.RepoContinuousDeploymentConfig {
         id: data
     }
 
@@ -49,14 +49,14 @@ Item {
         Repeater {
             model: data.repositoryName !== "" ? data.environments : null
 
-            Deploy {
+            EnvContinuousDeployment {
                 environment: modelData.environment
                 width: root.width
 
                 version: modelData.version
                 availables: root.availables
                 readOnly: modelData.readonly !== undefined ? modelData.readonly : false
-                repositoryName: root.project
+                repositoryName: root.repositoryName
             }
         }
     }

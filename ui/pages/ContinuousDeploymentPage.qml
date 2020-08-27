@@ -12,17 +12,17 @@ CoreLayout {
         anchors.fill: parent
         padding: 10
 
-        contentHeight: project.height
+        contentHeight: cd.height
 
         clip: true
 
-        DeployProject {
-            id: project
+        RepoContinuousDeployment {
+            id: cd
 
             width: Math.min(500, parent.width)
             x: (parent.width - width) / 2
 
-            project: search.currentText
+            repositoryName: search.currentText
         }
     }
 }

@@ -1,26 +1,21 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
 
-import "../../backend/sccs" as Backend
+import "../../backend/core"
 
-//import "../../backend/core"
 
 Item {
     id: root
 
     height: combobox.height
 
-    property alias currentText: combobox.currentText
-
-    Backend.Repositories {
-        id: repos
-    }
+    property alias index: combobox.currentIndex
 
     ComboBox {
         id: combobox
 
         width: root.width
-        model: repos.dataResponse
+        model: Store.sccs_project_settings.projectObj.projects
 
         textRole: "name"
 

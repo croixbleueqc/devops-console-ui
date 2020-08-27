@@ -5,7 +5,7 @@ import QtPygo.storage 1.0
 Settings {
     id: root
     property string project: ""
-    readonly property var projectObj: session !== "" ? JSON.parse(session) : null
+    readonly property var projectObj: project !== "" ? JSON.parse(project) : null
 
     onReady: {
         console.log("Loading DevOps Sccs project Settings...")

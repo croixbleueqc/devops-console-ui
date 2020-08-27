@@ -36,5 +36,8 @@
         <file>ui/sccs/ProjectSettings.qml</file>
         <file>backend/sccs/ProjectSettings.qml</file>
         <file>ui/pages/ProjectParametersPage.qml</file>
+        <file>ui/pages/ProjectDeployPage.qml</file>
+        <file>ui/sccs/SearchProject.qml</file>
+        <file>ui/sccs/DeployProjects.qml</file>
     </qresource>
 </RCC>

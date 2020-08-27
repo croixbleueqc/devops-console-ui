@@ -24,6 +24,10 @@ Item {
             page: "../pages/SccsParametersPage.qml"
         },
         {
+            name: "Project / Deploy",
+            page: "../pages/ProjectDeployPage.qml"
+        },
+        {
             name: "Project Parameters",
             page: "../pages/ProjectParametersPage.qml"
         }

@@ -8,32 +8,94 @@ Item {
 
     property var projectIndex
 
-    Column {
-        id: contents
+    width: scroll.width
 
-        spacing: 20
-        anchors.margins: 20
+    DeployByEnvironment {
+         id: dev;
 
-        Label {
-            id: title
-            text: Store.sccs_project_settings.projectObj.projects[projectIndex].name
-        }
+         title: "Dev"
 
-        Repeater {
-            model: Store.sccs_project_settings.projectObj.projects.length
+         repositories: Store.sccs_project_settings.projectObj.projects[projectIndex].repositories;
 
-            Text {
-                text: Store.sccs_project_settings.projectObj.projects[projectIndex].repositories[index].name
-            }
+         anchors.right: qa.left;
+         width: (scroll.width * 0.8) / 5;
+         anchors.margins: scroll.width * 0.05
+    }
 
-            DeployProject {
-                id: project
+    DeployTo {
+        anchors.top: root.top;
+        anchors.left: dev.right;
+        anchors.right: qa.left;
+        anchors.topMargin: 100;
+    }
 
-                x: (scroll.width - width)/2
+    DeployByEnvironment {
+         id: qa;
 
-                project: Store.sccs_project_settings.projectObj.projects[projectIndex].repositories[index].name
-            }
-        }
-     }
+         title: "Qa"
+
+         repositories: Store.sccs_project_settings.projectObj.projects[projectIndex].repositories;
+
+         anchors.right: accept.left;
+         width: (scroll.width * 0.8) / 5;
+         anchors.margins: scroll.width * 0.05
+    }
+
+    DeployTo {
+        anchors.top: root.top;
+        anchors.left: qa.right;
+        anchors.right: accept.left;
+        anchors.topMargin: 100;
+    }
+
+    DeployByEnvironment {
+         id: accept;
+
+         title: "Accept"
+
+         repositories: Store.sccs_project_settings.projectObj.projects[projectIndex].repositories;
+
+         anchors.horizontalCenter: root.horizontalCenter;
+         width: (scroll.width * 0.8) / 5;
+         anchors.margins: scroll.width * 0.05
+    }
+
+    DeployTo {
+        anchors.top: root.top;
+        anchors.left: accept.right;
+        anchors.right: formation.left;
+        anchors.topMargin: 100;
+    }
+
+    DeployByEnvironment {
+         id: formation;
+
+         title: "Formation"
+
+         repositories: Store.sccs_project_settings.projectObj.projects[projectIndex].repositories;
+
+         anchors.left: accept.right;
+         width: (scroll.width * 0.8) / 5;
+         anchors.margins: scroll.width * 0.05
+    }
+
+    DeployTo {
+        anchors.top: root.top;
+        anchors.left: formation.right;
+        anchors.right: production.left;
+        anchors.topMargin: 100;
+    }
+
+    DeployByEnvironment {
+         id: production;
+
+         title: "Production"
+
+         repositories: Store.sccs_project_settings.projectObj.projects[projectIndex].repositories;
+
+         anchors.left: formation.right;
+         width: (scroll.width * 0.8) / 5;
+         anchors.margins: scroll.width * 0.05
+    }
 }
 

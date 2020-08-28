@@ -13,6 +13,7 @@ Item {
     DeployByEnvironment {
          id: dev;
 
+         envName: "master"
          title: "Dev"
 
          repositories: Store.sccs_project_settings.projectObj.projects[projectIndex].repositories;
@@ -32,6 +33,7 @@ Item {
     DeployByEnvironment {
          id: qa;
 
+         envName: "qa"
          title: "Qa"
 
          repositories: Store.sccs_project_settings.projectObj.projects[projectIndex].repositories;
@@ -51,6 +53,7 @@ Item {
     DeployByEnvironment {
          id: accept;
 
+         envName: "acceptation"
          title: "Accept"
 
          repositories: Store.sccs_project_settings.projectObj.projects[projectIndex].repositories;
@@ -70,6 +73,7 @@ Item {
     DeployByEnvironment {
          id: formation;
 
+         envName: "training"
          title: "Formation"
 
          repositories: Store.sccs_project_settings.projectObj.projects[projectIndex].repositories;
@@ -89,6 +93,7 @@ Item {
     DeployByEnvironment {
          id: production;
 
+         envName: "production"
          title: "Production"
 
          repositories: Store.sccs_project_settings.projectObj.projects[projectIndex].repositories;

@@ -7,6 +7,7 @@ Item {
     id: root
 
     property var title;
+    property var envName;
     property var repositories;
 
     Rectangle {
@@ -43,14 +44,11 @@ Item {
                     width: rect.width * 0.8;
                     height: 50;
 
-                    Text {
-                        text: repositories[index].name
-                        padding: 10
-                        font.pixelSize: 20
-                        font.family: "AvantGarde-Medium"
-                        smooth: true
-                        verticalAlignment: Text.AlignVCenter
-                        anchors.horizontalCenter: repo.horizontalCenter;
+                    DeployProjectTest {
+                        id: project
+
+                        project: repositories[index].name
+                        envName: root.envName
                     }
                 }
             }

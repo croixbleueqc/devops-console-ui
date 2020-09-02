@@ -14,6 +14,7 @@ Item {
          id: dev;
 
          envName: "master"
+         envNameToDeploy: "qa"
          title: "Dev"
 
          repositories: Store.sccs_project_settings.projectObj.projects[projectIndex].repositories;
@@ -23,17 +24,11 @@ Item {
          anchors.margins: scroll.width * 0.05
     }
 
-    DeployTo {
-        anchors.top: root.top;
-        anchors.left: dev.right;
-        anchors.right: qa.left;
-        anchors.topMargin: 100;
-    }
-
     DeployByEnvironment {
          id: qa;
 
          envName: "qa"
+         envNameToDeploy: "acceptation"
          title: "Qa"
 
          repositories: Store.sccs_project_settings.projectObj.projects[projectIndex].repositories;
@@ -43,17 +38,11 @@ Item {
          anchors.margins: scroll.width * 0.05
     }
 
-    DeployTo {
-        anchors.top: root.top;
-        anchors.left: qa.right;
-        anchors.right: accept.left;
-        anchors.topMargin: 100;
-    }
-
     DeployByEnvironment {
          id: accept;
 
          envName: "acceptation"
+         envNameToDeploy: "training"
          title: "Accept"
 
          repositories: Store.sccs_project_settings.projectObj.projects[projectIndex].repositories;
@@ -63,17 +52,11 @@ Item {
          anchors.margins: scroll.width * 0.05
     }
 
-    DeployTo {
-        anchors.top: root.top;
-        anchors.left: accept.right;
-        anchors.right: formation.left;
-        anchors.topMargin: 100;
-    }
-
     DeployByEnvironment {
          id: formation;
 
          envName: "training"
+         envNameToDeploy: "production"
          title: "Formation"
 
          repositories: Store.sccs_project_settings.projectObj.projects[projectIndex].repositories;
@@ -83,17 +66,11 @@ Item {
          anchors.margins: scroll.width * 0.05
     }
 
-    DeployTo {
-        anchors.top: root.top;
-        anchors.left: formation.right;
-        anchors.right: production.left;
-        anchors.topMargin: 100;
-    }
-
     DeployByEnvironment {
          id: production;
 
          envName: "production"
+         envNameToDeploy: "none"
          title: "Production"
 
          repositories: Store.sccs_project_settings.projectObj.projects[projectIndex].repositories;

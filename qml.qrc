@@ -40,8 +40,8 @@
         <file>ui/sccs/SearchProject.qml</file>
         <file>ui/sccs/DeployProjects.qml</file>
         <file>ui/sccs/DeployByEnvironment.qml</file>
-        <file>ui/sccs/DeployTo.qml</file>
         <file>ui/sccs/DeployProjectTest.qml</file>
         <file>backend/sccs/RepositoryDeployConfigTest.qml</file>
+        <file>ui/sccs/DeployTest.qml</file>
     </qresource>
 </RCC>

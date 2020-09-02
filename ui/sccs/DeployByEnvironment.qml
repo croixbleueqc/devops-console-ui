@@ -9,6 +9,7 @@ Item {
     property var title;
     property var envName;
     property var repositories;
+    property var envNameToDeploy;
 
     Rectangle {
         id: rect;
@@ -42,13 +43,14 @@ Item {
                     id: repo
                     color: "green";
                     width: rect.width * 0.8;
-                    height: 50;
+                    height: 100;
 
                     DeployProjectTest {
                         id: project
 
                         project: repositories[index].name
                         envName: root.envName
+                        envNameToDeploy: root.envNameToDeploy
                     }
                 }
             }

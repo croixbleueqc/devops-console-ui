@@ -43,7 +43,10 @@ Item {
 
     // DevOps Sccs Plugin Settings
     property Sccs.PluginSettings sccs_plugin_settings: Sccs.PluginSettings {}
+
+    // DevOps Project Settings
     property Sccs.ProjectSettings sccs_project_settings: Sccs.ProjectSettings {}
+    property var currentProject: [];
 
     /* POC
 

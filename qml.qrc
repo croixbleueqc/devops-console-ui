@@ -43,5 +43,6 @@
         <file>ui/sccs/DeployProjectTest.qml</file>
         <file>backend/sccs/RepositoryDeployConfigTest.qml</file>
         <file>ui/sccs/DeployTest.qml</file>
+        <file>ui/sccs/FetchRepositories.qml</file>
     </qresource>
 </RCC>

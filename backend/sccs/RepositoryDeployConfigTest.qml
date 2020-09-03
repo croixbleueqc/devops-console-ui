@@ -5,9 +5,7 @@ WSNetworkAbstract {
     id: root
 
     property string repositoryName: ""
-    property string envName: "";
-
-    property var environment;
+    property var projectIndex: 0
 
     com: WSComOne
     autoReset: true
@@ -27,12 +25,40 @@ WSNetworkAbstract {
             return
         }
 
-        for (const env of dataResponse.environments) {
+        if (Store.currentProject === undefined || Store.currentProject === null || Store.currentProject.length === 0) {
+            Store.currentProject = Store.sccs_project_settings.projectObj.projects[projectIndex].environments;
 
-            if (env.environment === envName) {
-                environment = env;
+            for (var i = 0; i < Store.currentProject.length; i++) {
+                Store.currentProject[i].repositories = [];
             }
         }
+
+        for (const env of dataResponse.environments) {
+            for (var j = 0; j < Store.currentProject.length; j++) {
+                if (Store.currentProject[j].envName === env.environment) {
+
+                    var isRepoNotFound = true;
+                    for (var z= 0; z < Store.currentProject[j].repositories.length; z++) {
+
+                        if ( Store.currentProject[j].repositories[z].name === repositoryName) {
+
+                            isRepoNotFound = false;
+                            Store.currentProject[j].repositories[z].version = env.version;
+                        }
+                    }
+
+                    if (isRepoNotFound) {
+                        Store.currentProject[j].repositories.push(
+                        {
+                            name: repositoryName,
+                            version: env.version
+                        })
+                    }
+                }
+            }
+        }
+
+        Store.currentProjectChanged();
     }
 
     onErrorChanged: {

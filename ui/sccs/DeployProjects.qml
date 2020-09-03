@@ -2,6 +2,7 @@ import QtQuick 2.12
 import QtQuick.Controls 2.12
 
 import "../../backend/core"
+import "../../backend/sccs" as Backend
 
 Item {
     id: root
@@ -9,75 +10,39 @@ Item {
     property var projectIndex
 
     width: scroll.width
+    height: 1000
 
-    DeployByEnvironment {
-         id: dev;
-
-         envName: "master"
-         envNameToDeploy: "qa"
-         title: "Dev"
-
-         repositories: Store.sccs_project_settings.projectObj.projects[projectIndex].repositories;
-
-         anchors.right: qa.left;
-         width: (scroll.width * 0.8) / 5;
-         anchors.margins: scroll.width * 0.05
+    FetchRepositories {
+        id: data
+        projectIndex: root.projectIndex
     }
 
-    DeployByEnvironment {
-         id: qa;
+    BusyIndicator {
+        id: processing
+        visible: data.processing
+        running: visible
 
-         envName: "qa"
-         envNameToDeploy: "acceptation"
-         title: "Qa"
-
-         repositories: Store.sccs_project_settings.projectObj.projects[projectIndex].repositories;
-
-         anchors.right: accept.left;
-         width: (scroll.width * 0.8) / 5;
-         anchors.margins: scroll.width * 0.05
+        width: 200
+        height: 200
     }
 
-    DeployByEnvironment {
-         id: accept;
 
-         envName: "acceptation"
-         envNameToDeploy: "training"
-         title: "Accept"
+    Grid {
+        id: contents
+        visible: !data.processing
 
-         repositories: Store.sccs_project_settings.projectObj.projects[projectIndex].repositories;
+        spacing: 20
+        columns: Store.currentProject.length
 
-         anchors.horizontalCenter: root.horizontalCenter;
-         width: (scroll.width * 0.8) / 5;
-         anchors.margins: scroll.width * 0.05
+        Repeater {
+            model: Store.currentProject.length
+
+            DeployByEnvironment {
+                 environment: Store.currentProject[index];
+                 width: (scroll.width * 0.8) / Store.currentProject.length;
+            }
+        }
     }
 
-    DeployByEnvironment {
-         id: formation;
-
-         envName: "training"
-         envNameToDeploy: "production"
-         title: "Formation"
-
-         repositories: Store.sccs_project_settings.projectObj.projects[projectIndex].repositories;
-
-         anchors.left: accept.right;
-         width: (scroll.width * 0.8) / 5;
-         anchors.margins: scroll.width * 0.05
-    }
-
-    DeployByEnvironment {
-         id: production;
-
-         envName: "production"
-         envNameToDeploy: "none"
-         title: "Production"
-
-         repositories: Store.sccs_project_settings.projectObj.projects[projectIndex].repositories;
-
-         anchors.left: formation.right;
-         width: (scroll.width * 0.8) / 5;
-         anchors.margins: scroll.width * 0.05
-    }
 }
 

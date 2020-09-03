@@ -6,10 +6,10 @@ import "../../backend/sccs" as Backend
 Item {
     id: root
 
-    property var title;
-    property var envName;
-    property var repositories;
-    property var envNameToDeploy;
+    property var environment;
+
+    width: parent.width;
+    height: 1000;
 
     Rectangle {
         id: rect;
@@ -21,7 +21,7 @@ Item {
         Text {
             id: env
             padding: 50
-            text: title
+            text: root.environment.name
             font.pixelSize: 20
             font.family: "AvantGarde-Medium"
             smooth: true
@@ -37,7 +37,7 @@ Item {
             anchors.top: env.bottom;
 
             Repeater {
-                model: repositories.length
+                model: root.environment.repositories.length
 
                 Rectangle {
                     id: repo
@@ -48,9 +48,8 @@ Item {
                     DeployProjectTest {
                         id: project
 
-                        project: repositories[index].name
-                        envName: root.envName
-                        envNameToDeploy: root.envNameToDeploy
+                        repository: environment.repositories[index]
+                        envNameToDeploy: environment.deployToEnvName
                     }
                 }
             }

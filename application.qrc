@@ -9,5 +9,9 @@
         <file>icons/status/user-online.svg</file>
         <file>icons/actions/network-disconnect.svg</file>
         <file>icons/actions/network-connect.svg</file>
+        <file>icons/actions/errornext.svg</file>
+        <file>icons/actions/go-next.svg</file>
+        <file>icons/actions/go-previous.svg</file>
+        <file>icons/status/data-error.svg</file>
     </qresource>
 </RCC>

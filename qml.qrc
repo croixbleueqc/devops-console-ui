@@ -35,5 +35,15 @@
         <file>ui/sccs/PluginSettings.qml</file>
         <file>ui/core/User.qml</file>
         <file>ui/common/Suggestion.qml</file>
+        <file>ui/sccs/RepoAddWizard.qml</file>
+        <file>ui/sccs/wizard/addrepo/RepositoryName.qml</file>
+        <file>ui/sccs/wizard/addrepo/Template.qml</file>
+        <file>ui/common/form/DynamicForm.qml</file>
+        <file>ui/sccs/wizard/addrepo/Adding.qml</file>
+        <file>backend/sccs/RepoAddContract.qml</file>
+        <file>backend/sccs/AddRepository.qml</file>
+        <file>backend/sccs/ReposComplianceReport.qml</file>
+        <file>ui/pages/CompliancePage.qml</file>
+        <file>ui/sccs/ComplianceReport.qml</file>
     </qresource>
 </RCC>

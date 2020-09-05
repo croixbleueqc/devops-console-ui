@@ -5,14 +5,13 @@ import "../../backend/sccs" as Backend
 
 import "../common"
 
-//import "../../backend/core"
-
 Item {
     id: root
 
     height: suggestions.height
 
     property string currentText: suggestions.selected !== null ? suggestions.selected.name : ""
+    property string proposedRepositoryName: ""
 
     Backend.Repositories {
         id: repos
@@ -25,11 +24,50 @@ Item {
 
         filterRoleName: "name"
         maxVisibleSuggestions: 4
-        showAdd: false
-        suggestionToText: (suggestion) => suggestion.name
+        showAdd: true
 
         json: repos.dataResponse
 
         loading: repos.processing
+
+        onAdd: {
+            root.proposedRepositoryName = newValue
+            loadRepoAddWizard.active = true
+        }
+    }
+
+    Component {
+        id: repoAddWizard
+
+        Popup {
+            anchors.centerIn: Overlay.overlay
+            modal: true
+
+            contentHeight : Math.min(600, Math.max(300, add.implicitHeight))
+            contentWidth: 500
+
+            closePolicy: add.processing ? Popup.NoAutoClose : Popup.CloseOnPressOutside
+
+            RepoAddWizard {
+                id: add
+                anchors.fill: parent
+
+                repositoryName: root.proposedRepositoryName
+            }
+
+            onOpenedChanged: {
+                if(!opened) {
+                    loadRepoAddWizard.active = false
+                }
+            }
+
+            Component.onCompleted: open()
+        }
+    }
+
+    Loader {
+        id: loadRepoAddWizard
+        active: false
+        sourceComponent: repoAddWizard
     }
 }

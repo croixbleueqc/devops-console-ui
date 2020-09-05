@@ -18,6 +18,10 @@ Item {
         {
             name: qsTr("Continuous Deployment"),
             page: "../pages/ContinuousDeploymentPage.qml"
+        },
+        {
+            name: qsTr("Compliance Report"),
+            page: "../pages/CompliancePage.qml"
         }
 //        ,{
 //            name: "Experimental",

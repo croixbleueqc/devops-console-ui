@@ -7,21 +7,23 @@ import SortFilterProxyModel 0.2
 Item {
     id: root
 
-    height: search.height
+    implicitHeight: search.implicitHeight
 
-    property string filterRoleName: ""
+    property string filterRoleName: "name"
 
     property int maxVisibleSuggestions: 3
     property alias placeholderSearch: search.placeholderText
     property alias loading: loadingIndicator.visible
 
     property var selected: null
-    property var suggestionToText: (suggestion) => suggestion.lastName + " (" + suggestion.firstName + ")"
+    property string selectedText: ""
+    property var suggestionToText: (suggestion) => suggestion[root.filterRoleName]
 
     property bool showAdd: false
     signal add(var newValue)
 
     property var json: null
+    property var array: null
 
     property QtObject mainModel: ListModel {}
 
@@ -51,23 +53,37 @@ Item {
         }
     }
 
+    // TODO: implement an ArrayModel
+    onArrayChanged: {
+        root.mainModel.clear()
+        search.text = ""
+
+        if (root.array === null) { return }
+
+        for (const element of root.array) {
+            root.mainModel.append({ "name": element })
+        }
+    }
+
     TextField {
         id: search
-        focus: true
         width: parent.width
 
         inputMethodHints: Qt.ImhNoPredictiveText
 
         rightPadding: add.width + clear.width
 
-        property bool inhibitOnTextChanged: false
+        property bool inhibitOpenPopupOnTextChanged: false
+
+        onFocusChanged: {
+            if(focus && !suggestionsPopup.opened) {
+                suggestionsPopup.open()
+            }
+        }
 
         onTextChanged: {
-            if (inhibitOnTextChanged) { return }
-
             suggestions.currentIndex = -1
-            suggestionsPopup.open()
-            if (selected !== null) { selected = null }
+            if (!inhibitOpenPopupOnTextChanged) { suggestionsPopup.open() }
         }
 
         Keys.onPressed: {
@@ -76,11 +92,7 @@ Item {
 
             switch(event.key) {
             case Qt.Key_Escape:
-                if (text === "") {
-                    suggestionsPopup.close()
-                } else {
-                    text = ""
-                }
+                suggestionsPopup.close()
                 event.accepted = true
                 break
             case Qt.Key_Down:
@@ -101,7 +113,7 @@ Item {
                 break
             case Qt.Key_Return:
                 if (suggestions.currentIndex !== -1) {
-                    root.selected = proxyModel.get(suggestions.currentIndex)
+                    root.selected = root.json !== null ? proxyModel.get(suggestions.currentIndex) : (proxyModel.get(suggestions.currentIndex)).name
                     suggestionsPopup.close()
                     event.accepted = true
                 }
@@ -115,7 +127,7 @@ Item {
             icon.source: "qrc:/icons/actions/list-add.svg"
             y: -5
 
-            visible: root.showAdd && search.text !== "" && root.selected === null
+            visible: root.showAdd && search.text !== "" && search.text !== root.selectedText
             width: visible ? implicitWidth : 0
 
             flat: true
@@ -135,15 +147,17 @@ Item {
             icon.source: "qrc:/icons/actions/edit-clear.svg"
             y: -5
 
-            visible: search.text !== ""
+            visible: root.selected !== null
 
             flat: true
 
             anchors.right: add.left
 
             onClicked: {
+                search.inhibitOpenPopupOnTextChanged = true
                 search.text = ""
-                search.focus = true
+                if(root.selected !== null) { root.selected = null }
+                search.inhibitOpenPopupOnTextChanged = false
             }
         }
 
@@ -180,7 +194,7 @@ Item {
                     highlighted: suggestions.currentIndex === index
 
                     onClicked: {
-                        root.selected = root.proxyModel.get(index)
+                        root.selected = root.json !== null ? proxyModel.get(index) : (proxyModel.get(index)).name
                         suggestionsPopup.close()
                     }
                 }
@@ -204,13 +218,15 @@ Item {
                 if (opened) { return }
 
                 // from open to close
-                search.inhibitOnTextChanged = true
+                search.inhibitOpenPopupOnTextChanged = true
                 if (root.selected !== null) {
-                    search.text = root.suggestionToText(root.selected)
+                    search.text = json !== null ? root.suggestionToText(root.selected) : root.selected
+                    root.selectedText = search.text
                 } else {
                     search.text = ""
+                    root.selectedText = ""
                 }
-                search.inhibitOnTextChanged = false
+                search.inhibitOpenPopupOnTextChanged = false
             }
         }
     }

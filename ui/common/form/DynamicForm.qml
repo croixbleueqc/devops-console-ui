@@ -183,6 +183,7 @@ Item {
                         filterRoleName: modelData.roleName
                         showAdd: false
 
+                        defaultIndex: modelData.default !== undefined ? modelData.default : -1
                         json: modelData.values
 
                         onSelectedChanged: {

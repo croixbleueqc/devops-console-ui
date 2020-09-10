@@ -19,6 +19,8 @@ Item {
     property string selectedText: ""
     property var suggestionToText: (suggestion) => suggestion[root.filterRoleName]
 
+    property int defaultIndex: -1
+
     property bool showAdd: false
     signal add(var newValue)
 
@@ -51,6 +53,10 @@ Item {
         for(const element of root.json) {
             root.mainModel.append(element)
         }
+
+        if (root.defaultIndex > -1 && root.defaultIndex < root.mainModel.count) {
+            root.selected = root.mainModel.get(root.defaultIndex)
+        }
     }
 
     // TODO: implement an ArrayModel
@@ -63,6 +69,22 @@ Item {
         for (const element of root.array) {
             root.mainModel.append({ "name": element })
         }
+
+        if (root.defaultIndex > -1 && root.defaultIndex < root.mainModel.count) {
+            root.selected = root.mainModel.get(root.defaultIndex).name
+        }
+    }
+
+    onSelectedChanged: {
+        search.inhibitOpenPopupOnTextChanged = true
+        if (root.selected !== null) {
+            search.text = json !== null ? root.suggestionToText(root.selected) : root.selected
+            root.selectedText = search.text
+        } else {
+            search.text = ""
+            root.selectedText = ""
+        }
+        search.inhibitOpenPopupOnTextChanged = false
     }
 
     TextField {
@@ -154,10 +176,7 @@ Item {
             anchors.right: add.left
 
             onClicked: {
-                search.inhibitOpenPopupOnTextChanged = true
-                search.text = ""
-                if(root.selected !== null) { root.selected = null }
-                search.inhibitOpenPopupOnTextChanged = false
+                root.selected = null
             }
         }
 
@@ -218,15 +237,11 @@ Item {
                 if (opened) { return }
 
                 // from open to close
-                search.inhibitOpenPopupOnTextChanged = true
-                if (root.selected !== null) {
-                    search.text = json !== null ? root.suggestionToText(root.selected) : root.selected
-                    root.selectedText = search.text
-                } else {
-                    search.text = ""
-                    root.selectedText = ""
+                if (search.text !== root.selectedText) {
+                    search.inhibitOpenPopupOnTextChanged = true
+                    search.text = root.selectedText
+                    search.inhibitOpenPopupOnTextChanged = false
                 }
-                search.inhibitOpenPopupOnTextChanged = false
             }
         }
     }

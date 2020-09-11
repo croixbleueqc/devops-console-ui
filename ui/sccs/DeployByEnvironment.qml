@@ -9,14 +9,14 @@ Item {
     property var environment;
 
     width: parent.width;
-    height: 1000;
+    height: parent.height;
 
     Rectangle {
         id: rect;
 
         color: "lightgray";
-        width: root.width;
-        height: 1000;
+        width: parent.width;
+        height: parent.height;
 
         Text {
             id: env
@@ -41,7 +41,7 @@ Item {
 
                 Rectangle {
                     id: repo
-                    color: "green";
+                    color: environment.repositories[index].isUpdated === true ? "yellow" : "green";
                     width: rect.width * 0.8;
                     height: 100;
 

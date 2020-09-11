@@ -23,6 +23,7 @@ Item {
 
                         if ( Store.currentProject[j].repositories[z].name === repositoryName) {
                             Store.currentProject[j].repositories[z].version = root.version;
+                            Store.currentProject[j].repositories[z].isUpdated = true;
                         }
                     }
                 }
@@ -39,10 +40,19 @@ Item {
         }
     }
 
+    BusyIndicator {
+        id: processing
+        visible: backend.processing
+        running: visible
+
+        width: 50
+        height: 50
+    }
+
     Button {
         visible: {
 
-            var isVisible = backend.environment !== "none";
+            var isVisible = !backend.processing && backend.environment !== "none";
 
             if (isVisible) {
                 for (var j = 0; j < Store.currentProject.length; j++) {
@@ -70,5 +80,6 @@ Item {
         onClicked: backend.send()
 
         highlighted: backend.isError()
+        anchors.horizontalCenter: parent.horizontalCenter
     }
 }

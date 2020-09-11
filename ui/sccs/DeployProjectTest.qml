@@ -12,22 +12,25 @@ Item {
     height: Math.max(contents.height)
     width: Math.max(contents.width)
 
+    anchors.horizontalCenter: parent.horizontalCenter
+
     Column {
         id: contents
-
         spacing: 10
-        anchors.margins: 20
 
         Label {
             id: title
             text: root.repository.name
+            font.pointSize: rect.width / 35
+            anchors.horizontalCenter: parent.horizontalCenter
         }
 
         Label {
             id: version
 
-            font.pixelSize: 10
+            font.pointSize: rect.width / 40
             text: root.repository.version
+            anchors.horizontalCenter: parent.horizontalCenter
         }
 
         DeployTest {
@@ -40,6 +43,7 @@ Item {
             repositoryName: root.repository.name
 
             anchors.top: version.bottom
+            anchors.horizontalCenter: parent.horizontalCenter
         }
     }
 }

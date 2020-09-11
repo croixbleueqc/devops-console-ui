@@ -2,16 +2,16 @@
     <qresource prefix="/">
         <file>ui/sccs/Search.qml</file>
         <file>backend/sccs/Repositories.qml</file>
-        <file>backend/sccs/RepositoryDeployConfig.qml</file>
+        <file>backend/sccs/RepoContinuousDeploymentConfig.qml</file>
         <file>backend/core/NetworkGet.qml</file>
         <file>backend/core/NetworkPut.qml</file>
-        <file>backend/sccs/RepositoryDeployUpdate.qml</file>
+        <file>backend/sccs/RepoTriggerContinuousDeployment.qml</file>
         <file>backend/core/network.js</file>
         <file>backend/core/NetworkAbstract.qml</file>
         <file>ui/layouts/CoreLayout.qml</file>
         <file>ui/pages/NotFoundPage.qml</file>
         <file>ui/core/Header.qml</file>
-        <file>ui/pages/SccsDeployPage.qml</file>
+        <file>ui/pages/ContinuousDeploymentPage.qml</file>
         <file>ui/core/Navigation.qml</file>
         <file>backend/core/WSCom.qml</file>
         <file>backend/core/WSComOne.qml</file>
@@ -21,10 +21,10 @@
         <file>backend/core/Store.qml</file>
         <file>backend/core/StoreLoader.qml</file>
         <file>backend/core/StoreUse.qml</file>
-        <file>ui/sccs/DeployProject.qml</file>
-        <file>ui/sccs/Deploy.qml</file>
+        <file>ui/sccs/RepoContinuousDeployment.qml</file>
+        <file>ui/sccs/EnvContinuousDeployment.qml</file>
         <file>ui/common/Card.qml</file>
-        <file>ui/pages/SccsParametersPage.qml</file>
+        <file>ui/pages/ParametersPage.qml</file>
         <file>ui/layouts/SimpleLayout.qml</file>
         <file>ui/pages/LoginPage.qml</file>
         <file>entrypoint/WebEntry.qml</file>
@@ -44,5 +44,17 @@
         <file>backend/sccs/RepositoryDeployConfigTest.qml</file>
         <file>ui/sccs/DeployTest.qml</file>
         <file>ui/sccs/FetchRepositories.qml</file>
+        <file>ui/core/User.qml</file>
+        <file>ui/common/Suggestion.qml</file>
+        <file>ui/sccs/RepoAddWizard.qml</file>
+        <file>ui/sccs/wizard/addrepo/RepositoryName.qml</file>
+        <file>ui/sccs/wizard/addrepo/Template.qml</file>
+        <file>ui/common/form/DynamicForm.qml</file>
+        <file>ui/sccs/wizard/addrepo/Adding.qml</file>
+        <file>backend/sccs/RepoAddContract.qml</file>
+        <file>backend/sccs/AddRepository.qml</file>
+        <file>backend/sccs/ReposComplianceReport.qml</file>
+        <file>ui/pages/CompliancePage.qml</file>
+        <file>ui/sccs/ComplianceReport.qml</file>
     </qresource>
 </RCC>

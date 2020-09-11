@@ -16,12 +16,12 @@ Item {
             page: "../pages/WelcomePage.qml"
         },
         {
-            name: "Sccs / Deploy",
-            page: "../pages/SccsDeployPage.qml"
+            name: qsTr("Continuous Deployment"),
+            page: "../pages/ContinuousDeploymentPage.qml"
         },
         {
-            name: "Sccs Parameters",
-            page: "../pages/SccsParametersPage.qml"
+            name: qsTr("Compliance Report"),
+            page: "../pages/CompliancePage.qml"
         },
         {
             name: "Project / Deploy",
@@ -40,6 +40,12 @@ Item {
 
     // default router
     property QtObject defaultRouter: null
+
+    // languages supported
+    property var languagesSupported: [
+        qsTr("English"),
+        qsTr("Français")
+    ]
 
     // DevOps Sccs Plugin Settings
     property Sccs.PluginSettings sccs_plugin_settings: Sccs.PluginSettings {}

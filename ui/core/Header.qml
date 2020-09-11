@@ -11,7 +11,11 @@ Item {
     width: parent.width
 
     property Item placeholderItem: null
-    signal sidePopupToggle()
+    signal openApplicationMenu()
+    signal openParametersPage()
+
+    property alias showApplicationMenu: applicationMenu.visible
+    property alias showUser: user.visible
 
     readonly property WSCom com: WSComOne
 
@@ -21,19 +25,21 @@ Item {
 
         RowLayout {
             anchors.fill: parent
-            spacing: 10
 
             ToolButton {
-                id: sideControl
+                id: applicationMenu
                 icon.name: "application-menu"
                 icon.source: "qrc:/icons/actions/application-menu.svg"
 
-                onClicked: sidePopupToggle()
+                onClicked: root.openApplicationMenu()
             }
 
             Label {
                 id: title
                 text: qsTr("DevOps Console")
+                rightPadding: 10
+
+                visible: placeholderItem === null || toolbar.width > 550
             }
 
             Pane {
@@ -44,7 +50,9 @@ Item {
                 leftPadding: 5
                 rightPadding: 5
 
-                Layout.margins: 5
+                background: Rectangle {
+                    opacity: 0.2
+                }
 
                 contentItem: placeholderItem
 
@@ -55,13 +63,37 @@ Item {
 
             ToolButton {
                 id: status
-                text: com.status !== WebSocket.Open ? qsTr("offline") : qsTr("online")
+                icon.name: com.status !== WebSocket.Open ? "network-disconnect" : "network-connect"
+                icon.source: "qrc:/icons/actions/" + (com.status !== WebSocket.Open ? "network-disconnect" : "network-connect") + ".svg"
 
                 onClicked: {
                     com.active = !com.active
                 }
+            }
 
-                Layout.margins: 5
+            ToolButton {
+                id: user
+                icon.name: com.status !== WebSocket.Open ? "user-offline" : "user-online"
+                icon.source: "qrc:/icons/status/" + (com.status !== WebSocket.Open ? "user-offline" : "user-online") + ".svg"
+
+                onClicked: popupUser.open()
+
+                Popup {
+                    id: popupUser
+
+                    focus: true
+
+                    x: -implicitWidth + parent.width - 10
+                    y: parent.height
+
+                    User {
+                        showLanguage: false
+                        onSettingsClicked: {
+                            popupUser.close()
+                            root.openParametersPage()
+                        }
+                    }
+                }
             }
         }
     }

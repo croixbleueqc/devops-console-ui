@@ -2,46 +2,28 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="fr_CA">
 <context>
-    <name>Deploy</name>
+    <name>EnvContinuousDeployment</name>
     <message>
-        <location filename="../ui/sccs/Deploy.qml" line="115"/>
+        <location filename="../ui/sccs/EnvContinuousDeployment.qml" line="115"/>
         <source>Cancel</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/sccs/Deploy.qml" line="124"/>
+        <location filename="../ui/sccs/EnvContinuousDeployment.qml" line="124"/>
         <source>Try again</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/sccs/Deploy.qml" line="124"/>
+        <location filename="../ui/sccs/EnvContinuousDeployment.qml" line="124"/>
         <source>Deploy</source>
-        <translation type="unfinished"></translation>
-    </message>
-</context>
-<context>
-    <name>DeployProject</name>
-    <message>
-        <location filename="../ui/sccs/DeployProject.qml" line="32"/>
-        <source>%1 is not compatible !</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>Header</name>
     <message>
-        <location filename="../ui/core/Header.qml" line="36"/>
+        <location filename="../ui/core/Header.qml" line="39"/>
         <source>DevOps Console</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/core/Header.qml" line="58"/>
-        <source>offline</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/core/Header.qml" line="58"/>
-        <source>online</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -63,6 +45,14 @@
     <message>
         <location filename="../entrypoint/MainAbstract.qml" line="14"/>
         <source>DevOps</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Navigation</name>
+    <message>
+        <location filename="../ui/core/Navigation.qml" line="25"/>
+        <source>DevOps Console</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -98,6 +88,14 @@
     </message>
 </context>
 <context>
+    <name>RepoContinuousDeployment</name>
+    <message>
+        <location filename="../ui/sccs/RepoContinuousDeployment.qml" line="31"/>
+        <source>%1 is not compatible !</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>Store</name>
     <message>
         <location filename="../backend/core/Store.qml" line="10"/>
@@ -107,6 +105,29 @@
     <message>
         <location filename="../backend/core/Store.qml" line="15"/>
         <source>Welcome</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../backend/core/Store.qml" line="19"/>
+        <source>Continuous Deployment</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../backend/core/Store.qml" line="34"/>
+        <source>English</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../backend/core/Store.qml" line="35"/>
+        <source>Français</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>Suggestion</name>
+    <message>
+        <location filename="../ui/common/Suggestion.qml" line="197"/>
+        <source>No suggestion available !</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

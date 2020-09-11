@@ -2,5 +2,16 @@
     <qresource prefix="/">
         <file>qtquickcontrols2.conf</file>
         <file>icons/actions/application-menu.svg</file>
+        <file>icons/actions/edit-clear.svg</file>
+        <file>icons/actions/list-add.svg</file>
+        <file>icons/actions/settings-configure.svg</file>
+        <file>icons/status/user-offline.svg</file>
+        <file>icons/status/user-online.svg</file>
+        <file>icons/actions/network-disconnect.svg</file>
+        <file>icons/actions/network-connect.svg</file>
+        <file>icons/actions/errornext.svg</file>
+        <file>icons/actions/go-next.svg</file>
+        <file>icons/actions/go-previous.svg</file>
+        <file>icons/status/data-error.svg</file>
     </qresource>
 </RCC>

@@ -19,6 +19,7 @@ Page {
     header: Header {
         id: header
 
-        onSidePopupToggle: navigation.open()
+        onOpenApplicationMenu: navigation.open()
+        onOpenParametersPage: navigation.openParametersPage()
     }
 }

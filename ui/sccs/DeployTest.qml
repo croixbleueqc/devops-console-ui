@@ -2,6 +2,7 @@ import QtQuick 2.12
 import QtQuick.Controls 2.12
 
 import "../../backend/sccs" as Backend
+import "../../backend/core"
 import "../common"
 
 Item {
@@ -11,13 +12,24 @@ Item {
     property alias repositoryName: backend.repositoryName
     property alias version: backend.version
 
-    property var isDone: false;
-
-    Backend.RepositoryDeployUpdate {
+    Backend.RepoTriggerContinuousDeployment {
         id: backend
 
         onSuccess: {
-            root.isDone = true
+
+            for (var j = 0; j < Store.currentProject.length; j++) {
+                if (Store.currentProject[j].envName === root.environment) {
+                    for (var z= 0; z < Store.currentProject[j].repositories.length; z++) {
+
+                        if ( Store.currentProject[j].repositories[z].name === repositoryName) {
+                            Store.currentProject[j].repositories[z].version = root.version;
+                        }
+                    }
+                }
+
+            }
+
+            Store.currentProjectChanged();
         }
 
         onErrorChanged: {
@@ -28,10 +40,32 @@ Item {
     }
 
     Button {
-        visible: backend.environment !== "none"
+        visible: {
+
+            var isVisible = backend.environment !== "none";
+
+            if (isVisible) {
+                for (var j = 0; j < Store.currentProject.length; j++) {
+                    if (Store.currentProject[j].envName === root.environment) {
+                        for (var z= 0; z < Store.currentProject[j].repositories.length; z++) {
+
+                            if ( Store.currentProject[j].repositories[z].name === repositoryName) {
+
+                                if (Store.currentProject[j].repositories[z].version === root.version) {
+                                    isVisible = false;
+                                }
+                            }
+                        }
+                    }
+
+                }
+            }
+
+            return isVisible
+        }
 
         id: apply
-        text: root.isDone ? qsTr("Done !") :  backend.isError() ? qsTr("Try again") : qsTr("Deploy to " + backend.environment)
+        text: backend.isError() ? qsTr("Try again") : qsTr("Deploy to " + backend.environment)
 
         onClicked: backend.send()
 

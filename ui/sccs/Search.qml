@@ -3,33 +3,71 @@ import QtQuick.Controls 2.12
 
 import "../../backend/sccs" as Backend
 
-//import "../../backend/core"
+import "../common"
 
 Item {
     id: root
 
-    height: combobox.height
+    height: suggestions.height
 
-    property alias currentText: combobox.currentText
+    property string currentText: suggestions.selected !== null ? suggestions.selected.name : ""
+    property string proposedRepositoryName: ""
 
     Backend.Repositories {
         id: repos
     }
 
-    ComboBox {
-        id: combobox
+    Suggestion {
+        id: suggestions
 
         width: root.width
-        model: repos.dataResponse
 
-        textRole: "name"
+        filterRoleName: "name"
+        maxVisibleSuggestions: 4
+        showAdd: true
 
-        editable: true
+        json: repos.dataResponse
 
-        onAccepted: {
-            if (find(editText) === -1) {
-                console.log("nothing to do")
-            }
+        loading: repos.processing
+
+        onAdd: {
+            root.proposedRepositoryName = newValue
+            loadRepoAddWizard.active = true
         }
+    }
+
+    Component {
+        id: repoAddWizard
+
+        Popup {
+            anchors.centerIn: Overlay.overlay
+            modal: true
+
+            contentHeight : Math.min(600, Math.max(300, add.implicitHeight))
+            contentWidth: 500
+
+            closePolicy: add.processing ? Popup.NoAutoClose : Popup.CloseOnPressOutside
+
+            RepoAddWizard {
+                id: add
+                anchors.fill: parent
+
+                repositoryName: root.proposedRepositoryName
+            }
+
+            onOpenedChanged: {
+                if(!opened) {
+                    loadRepoAddWizard.active = false
+                }
+            }
+
+            Component.onCompleted: open()
+        }
+    }
+
+    Loader {
+        id: loadRepoAddWizard
+        active: false
+        sourceComponent: repoAddWizard
     }
 }

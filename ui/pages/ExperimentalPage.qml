@@ -6,31 +6,27 @@ import "../sccs"
 import "../../backend/core"
 
 CoreLayout {
-    Column {
-        anchors.fill: parent
 
-        Search { id: search; width:parent.width }
-        Search { id: search2; width:parent.width }
+    Popup {
+        id: wizard
+        anchors.centerIn: Overlay.overlay
+        modal: true
 
-    }
+        contentHeight : Math.min(600, Math.max(300, add.implicitHeight))
+        contentWidth: 500
 
-//    property var repositories: repos2.item === null ? null : repos2.item.dataResponse
+        closePolicy: add.processing ? Popup.NoAutoClose : Popup.CloseOnPressOutside
 
-    StoreUse {
-        id: repos
-        module: "repos"
+        RepoAddWizard {
+            id: add
+            anchors.fill: parent
 
-        Component.onCompleted: {
-            //item.send()
+            repositoryName: "bitbucket-management-storage"
         }
+
     }
 
-//    StoreUse {
-//        id: repos2
-//        module: "repos"
-//    }
-
-//    onRepositoriesChanged: {
-//        console.log("exp: repo: " + JSON.stringify(repositories))
-//    }
+    Component.onCompleted: {
+        wizard.open()
+    }
 }

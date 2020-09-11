@@ -27,7 +27,7 @@ Item {
     onVersionChanged: updateCurrentIndex()
     onAvailablesChanged: updateCurrentIndex()
 
-    Backend.RepositoryDeployUpdate {
+    Backend.RepoTriggerContinuousDeployment {
         id: backend
         version: versions.currentIndex !== -1 ? versions.currentValue : ""
 

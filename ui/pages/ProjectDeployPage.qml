@@ -1,11 +1,11 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
 import "../layouts"
-import "../sccs"
+import "../projects"
 import "../../backend/core"
 
 CoreLayout {
-    headerPlaceholderItem: SearchProject { id: search }
+    headerPlaceholderItem: Search { id: search }
 
     ScrollView {
         id: scroll
@@ -19,7 +19,7 @@ CoreLayout {
 
         clip: true
 
-        DeployProjects {
+        DeployProject {
             id: project
 
             x: (scroll.width - width)/2
@@ -27,7 +27,7 @@ CoreLayout {
             projectIndex: {
 
                 if (Store.currentProject === undefined) {
-                      Store.currentProject = Store.sccs_project_settings.projectObj.projects[search.index].environments;
+                      Store.currentProject = Store.projects_project_settings.projectObj.projects[search.index].environments;
 
                       for (var i = 0; i < Store.currentProject.length; i++) {
                         Store.currentProject[i].repositories = [];

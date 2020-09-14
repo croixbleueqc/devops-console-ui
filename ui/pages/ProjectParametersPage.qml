@@ -1,7 +1,7 @@
 import QtQuick 2.12
 import "../layouts"
 
-import "../sccs"
+import "../projects"
 
 CoreLayout {
 

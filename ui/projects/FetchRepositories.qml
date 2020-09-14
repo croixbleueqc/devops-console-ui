@@ -2,7 +2,7 @@ import QtQuick 2.12
 import QtQuick.Controls 2.12
 
 import "../../backend/core"
-import "../../backend/sccs" as Backend
+import "../../backend/projects" as Backend
 
 Item {
     id: root
@@ -12,10 +12,10 @@ Item {
 
     Repeater {
         id: dataRepository
-        model: Store.sccs_project_settings.projectObj.projects[projectIndex].repositories.length
+        model: Store.projects_project_settings.projectObj.projects[projectIndex].repositories.length
 
-        Backend.RepositoryDeployConfigTest {
-            repositoryName: Store.sccs_project_settings.projectObj.projects[projectIndex].repositories[index].name
+        Backend.RepositoryDeployConfig {
+            repositoryName: Store.projects_project_settings.projectObj.projects[projectIndex].repositories[index].name
 
             onProcessingChanged: {
                 if(dataRepository.model === undefined) {

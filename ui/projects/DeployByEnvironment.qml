@@ -45,7 +45,7 @@ Item {
                     width: rect.width * 0.8;
                     height: 100;
 
-                    DeployProjectTest {
+                    DeployRepository {
                         id: project
 
                         repository: environment.repositories[index]

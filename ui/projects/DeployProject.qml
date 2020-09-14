@@ -10,7 +10,7 @@ Item {
     property var projectIndex
 
     width: scroll.width
-    height: 110 + (130 * Store.sccs_project_settings.projectObj.projects[projectIndex].repositories.length)
+    height: 110 + (130 * Store.projects_project_settings.projectObj.projects[projectIndex].repositories.length)
 
     FetchRepositories {
         id: data

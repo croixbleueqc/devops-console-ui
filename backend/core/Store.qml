@@ -2,6 +2,7 @@ pragma Singleton
 
 import QtQuick 2.12
 import "../sccs" as Sccs
+import "../projects" as Projects
 
 Item {
     id: root
@@ -51,7 +52,7 @@ Item {
     property Sccs.PluginSettings sccs_plugin_settings: Sccs.PluginSettings {}
 
     // DevOps Project Settings
-    property Sccs.ProjectSettings sccs_project_settings: Sccs.ProjectSettings {}
+    property Projects.ProjectSettings projects_project_settings: Projects.ProjectSettings {}
     property var currentProject: undefined;
 
     /* POC

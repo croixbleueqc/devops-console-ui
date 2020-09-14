@@ -33,7 +33,7 @@ Item {
             anchors.horizontalCenter: parent.horizontalCenter
         }
 
-        DeployTest {
+        Deploy {
             id: deploy
 
             environment: root.envNameToDeploy

@@ -21,7 +21,7 @@ Item {
                     id: project
 
                     placeholderText: qsTr("Configuration")
-                    text: Store.sccs_project_settings.project
+                    text: Store.projects_project_settings.project
 
                     Layout.fillWidth: true
                 }
@@ -32,7 +32,7 @@ Item {
                     Layout.alignment: Qt.AlignRight
 
                     onClicked: {
-                        Store.sccs_project_settings.saveSettings(project.text)
+                        Store.projects_project_settings.saveSettings(project.text)
                     }
                 }
             }

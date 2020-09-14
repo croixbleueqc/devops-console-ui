@@ -33,17 +33,8 @@
         <file>entrypoint/GenericEntry.qml</file>
         <file>backend/sccs/PluginSettings.qml</file>
         <file>ui/sccs/PluginSettings.qml</file>
-        <file>ui/sccs/ProjectSettings.qml</file>
-        <file>backend/sccs/ProjectSettings.qml</file>
         <file>ui/pages/ProjectParametersPage.qml</file>
         <file>ui/pages/ProjectDeployPage.qml</file>
-        <file>ui/sccs/SearchProject.qml</file>
-        <file>ui/sccs/DeployProjects.qml</file>
-        <file>ui/sccs/DeployByEnvironment.qml</file>
-        <file>ui/sccs/DeployProjectTest.qml</file>
-        <file>backend/sccs/RepositoryDeployConfigTest.qml</file>
-        <file>ui/sccs/DeployTest.qml</file>
-        <file>ui/sccs/FetchRepositories.qml</file>
         <file>ui/core/User.qml</file>
         <file>ui/common/Suggestion.qml</file>
         <file>ui/sccs/RepoAddWizard.qml</file>
@@ -56,5 +47,14 @@
         <file>backend/sccs/ReposComplianceReport.qml</file>
         <file>ui/pages/CompliancePage.qml</file>
         <file>ui/sccs/ComplianceReport.qml</file>
+        <file>ui/projects/DeployByEnvironment.qml</file>
+        <file>ui/projects/DeployProject.qml</file>
+        <file>ui/projects/DeployRepository.qml</file>
+        <file>ui/projects/Deploy.qml</file>
+        <file>ui/projects/FetchRepositories.qml</file>
+        <file>ui/projects/Search.qml</file>
+        <file>ui/projects/ProjectSettings.qml</file>
+        <file>backend/projects/RepositoryDeployConfig.qml</file>
+        <file>backend/projects/ProjectSettings.qml</file>
     </qresource>
 </RCC>

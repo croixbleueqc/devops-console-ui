@@ -75,7 +75,7 @@ Item {
         }
 
         id: apply
-        text: backend.isError() ? qsTr("Try again") : qsTr("Deploy to " + backend.environment)
+        text: backend.isError() ? qsTr("Try again") : qsTr("Deploy:" + backend.environment)
 
         onClicked: backend.send()
 

@@ -15,7 +15,7 @@ Item {
         id: combobox
 
         width: root.width
-        model: Store.sccs_project_settings.projectObj.projects
+        model: Store.projects_project_settings.projectObj.projects
 
         textRole: "name"
 

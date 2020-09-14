@@ -26,5 +26,18 @@ Item {
                 console.log("nothing to do")
             }
         }
+
+        onCurrentIndexChanged: {
+            Store.processing = true;
+            Store.processingChanged();
+
+            Store.currentProject = Store.projects_project_settings.projectObj.projects[search.index].environments;
+
+            for (var i = 0; i < Store.currentProject.length; i++) {
+              Store.currentProject[i].repositories = [];
+            }
+
+            Store.currentProjectChanged();
+        }
     }
 }

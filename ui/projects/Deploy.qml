@@ -57,7 +57,7 @@ Item {
             if (isVisible) {
                 for (var j = 0; j < Store.currentProject.length; j++) {
                     if (Store.currentProject[j].envName === root.environment) {
-                        for (var z= 0; z < Store.currentProject[j].repositories.length; z++) {
+                        for (var z= 0; Store.currentProject[j].repositories !== undefined && z < Store.currentProject[j].repositories.length; z++) {
 
                             if ( Store.currentProject[j].repositories[z].name === repositoryName) {
 

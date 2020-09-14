@@ -8,7 +8,6 @@ Item {
     id: root
 
     property var projectIndex;
-    property bool processing: true
 
     Repeater {
         id: dataRepository
@@ -19,7 +18,7 @@ Item {
 
             onProcessingChanged: {
                 if(dataRepository.model === undefined) {
-                    root.processing = true
+                    Store.processing = true
                     return
                 }
 
@@ -29,7 +28,8 @@ Item {
                     }
                 }
 
-                root.processing = false
+                Store.processing = false
+                Store.processingChanged();
             }
         }
     }

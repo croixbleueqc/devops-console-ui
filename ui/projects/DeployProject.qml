@@ -19,7 +19,7 @@ Item {
 
     BusyIndicator {
         id: processing
-        visible: data.processing
+        visible: Store.processing
         running: visible
 
         width: 50
@@ -34,7 +34,7 @@ Item {
         anchors.horizontalCenter: parent.horizontalCenter;
         height: parent.height
 
-        visible: !data.processing
+        visible: !Store.processing
 
         spacing: 20
         columns: Store.currentProject.length

@@ -37,7 +37,7 @@ Item {
             anchors.top: env.bottom;
 
             Repeater {
-                model: root.environment.repositories.length
+                model: root.environment.repositories !== undefined ? root.environment.repositories.length : 0
 
                 Rectangle {
                     id: repo

@@ -21,21 +21,8 @@ CoreLayout {
 
         DeployProject {
             id: project
-
             x: (scroll.width - width)/2
-
-            projectIndex: {
-
-                if (Store.currentProject === undefined) {
-                      Store.currentProject = Store.projects_project_settings.projectObj.projects[search.index].environments;
-
-                      for (var i = 0; i < Store.currentProject.length; i++) {
-                        Store.currentProject[i].repositories = [];
-                      }
-                  }
-
-                 return search.index
-            }
+            projectIndex: search.index
         }
     }
 }

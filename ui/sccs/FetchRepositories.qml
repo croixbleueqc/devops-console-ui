@@ -16,7 +16,6 @@ Item {
 
         Backend.RepositoryDeployConfigTest {
             repositoryName: Store.sccs_project_settings.projectObj.projects[projectIndex].repositories[index].name
-            projectIndex: projectIndex;
 
             onProcessingChanged: {
                 if(dataRepository.model === undefined) {

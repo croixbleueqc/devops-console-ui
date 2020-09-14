@@ -22,15 +22,19 @@ Item {
         visible: data.processing
         running: visible
 
-        anchors.fill: parent;
+        width: 50
+        height: 50
+
+        anchors.horizontalCenter: parent.horizontalCenter;
     }
 
 
     Grid {
         id: contents
-        visible: !data.processing
         anchors.horizontalCenter: parent.horizontalCenter;
         height: parent.height
+
+        visible: !data.processing
 
         spacing: 20
         columns: Store.currentProject.length

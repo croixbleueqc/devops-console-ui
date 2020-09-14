@@ -5,7 +5,6 @@ WSNetworkAbstract {
     id: root
 
     property string repositoryName: ""
-    property var projectIndex: 0
 
     com: WSComOne
     autoReset: true
@@ -23,14 +22,6 @@ WSNetworkAbstract {
 
         if (dataResponse === undefined || dataResponse === null) {
             return
-        }
-
-        if (Store.currentProject === undefined || Store.currentProject === null || Store.currentProject.length === 0) {
-            Store.currentProject = Store.sccs_project_settings.projectObj.projects[projectIndex].environments;
-
-            for (var i = 0; i < Store.currentProject.length; i++) {
-                Store.currentProject[i].repositories = [];
-            }
         }
 
         for (const env of dataResponse.environments) {

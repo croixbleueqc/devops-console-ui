@@ -52,7 +52,7 @@ Item {
 
     // DevOps Project Settings
     property Sccs.ProjectSettings sccs_project_settings: Sccs.ProjectSettings {}
-    property var currentProject: [];
+    property var currentProject: undefined;
 
     /* POC
 

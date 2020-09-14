@@ -9,14 +9,13 @@ CoreLayout {
 
     ScrollView {
         id: scroll
+        visible: search.index !== -1
 
         anchors.fill: parent
         anchors.margins: 10
 
         contentWidth: project.width
         contentHeight: project.height + 10
-
-        //ScrollBar.vertical.policy: ScrollBar.AlwaysOn
 
         clip: true
 
@@ -25,7 +24,18 @@ CoreLayout {
 
             x: (scroll.width - width)/2
 
-            projectIndex: search.index
+            projectIndex: {
+
+                if (Store.currentProject === undefined) {
+                      Store.currentProject = Store.sccs_project_settings.projectObj.projects[search.index].environments;
+
+                      for (var i = 0; i < Store.currentProject.length; i++) {
+                        Store.currentProject[i].repositories = [];
+                      }
+                  }
+
+                 return search.index
+            }
         }
     }
 }

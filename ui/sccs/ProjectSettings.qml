@@ -5,30 +5,35 @@ import QtQuick.Layouts 1.12
 import "../../backend/core"
 
 Item {
-    GroupBox {
-        width: parent.width
+    ScrollView {
+        id: view
+        anchors.fill: parent
 
-        title: qsTr("Project")
-
-        ColumnLayout {
+        GroupBox {
             anchors.fill: parent
 
-            TextArea {
-                id: project
+            title: qsTr("Project")
 
-                placeholderText: qsTr("Configuration")
-                text: Store.sccs_project_settings.project
+            ColumnLayout {
+                anchors.fill: parent
 
-                Layout.fillWidth: true
-            }
+                TextArea {
+                    id: project
 
-            Button {
-                text: qsTr("Save")
+                    placeholderText: qsTr("Configuration")
+                    text: Store.sccs_project_settings.project
 
-                Layout.alignment: Qt.AlignRight
+                    Layout.fillWidth: true
+                }
 
-                onClicked: {
-                    Store.sccs_project_settings.saveSettings(project.text)
+                Button {
+                    text: qsTr("Save")
+
+                    Layout.alignment: Qt.AlignRight
+
+                    onClicked: {
+                        Store.sccs_project_settings.saveSettings(project.text)
+                    }
                 }
             }
         }

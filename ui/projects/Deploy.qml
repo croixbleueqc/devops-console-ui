@@ -62,7 +62,7 @@ Item {
                             if ( Store.currentProject[j].repositories[z].name === repositoryName) {
 
                                 if (Store.currentProject[j].repositories[z].version === root.version) {
-                                    isVisible = false;
+                                    return false;
                                 }
                             }
                         }

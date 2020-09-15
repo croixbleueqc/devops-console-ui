@@ -27,10 +27,6 @@ Item {
         {
             name: qsTr("Compliance Report"),
             page: "../pages/CompliancePage.qml"
-        },
-        {
-            name: "Project Parameters",
-            page: "../pages/ProjectParametersPage.qml"
         }
 //        ,{
 //            name: "Experimental",

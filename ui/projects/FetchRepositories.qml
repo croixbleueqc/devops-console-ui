@@ -29,7 +29,6 @@ Item {
                 }
 
                 Store.processing = false
-                Store.processingChanged();
             }
         }
     }

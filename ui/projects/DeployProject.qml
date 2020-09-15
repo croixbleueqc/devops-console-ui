@@ -10,7 +10,7 @@ Item {
     property alias projectIndex: data.projectIndex
 
     width: scroll.width
-    height: 110 + (130 * Store.projects_project_settings.projectObj.projects[projectIndex].repositories.length)
+    height: projectIndex !== undefined ? 110 + (130 * Store.projects_project_settings.projectObj.projects[projectIndex].repositories.length) : 0
 
     FetchRepositories {
         id: data

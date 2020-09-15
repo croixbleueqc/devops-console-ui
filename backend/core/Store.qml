@@ -21,12 +21,12 @@ Item {
             page: "../pages/ContinuousDeploymentPage.qml"
         },
         {
-            name: qsTr("Compliance Report"),
-            page: "../pages/CompliancePage.qml"
+            name: qsTr("Continuous Deployment by Project"),
+            page: "../pages/ContinuousDeploymentByProjectPage.qml"
         },
         {
-            name: "Project / Deploy",
-            page: "../pages/ProjectDeployPage.qml"
+            name: qsTr("Compliance Report"),
+            page: "../pages/CompliancePage.qml"
         },
         {
             name: "Project Parameters",

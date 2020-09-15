@@ -19,7 +19,7 @@ Item {
 
         textRole: "name"
 
-        editable: true
+        editable: false
 
         onAccepted: {
             if (find(editText) === -1) {
@@ -29,7 +29,6 @@ Item {
 
         onCurrentIndexChanged: {
             Store.processing = true;
-            Store.processingChanged();
 
             Store.currentProject = Store.projects_project_settings.projectObj.projects[search.index].environments;
 

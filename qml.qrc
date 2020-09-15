@@ -34,7 +34,7 @@
         <file>backend/sccs/PluginSettings.qml</file>
         <file>ui/sccs/PluginSettings.qml</file>
         <file>ui/pages/ProjectParametersPage.qml</file>
-        <file>ui/pages/ProjectDeployPage.qml</file>
+        <file>ui/pages/ContinuousDeploymentByProjectPage.qml</file>
         <file>ui/core/User.qml</file>
         <file>ui/common/Suggestion.qml</file>
         <file>ui/sccs/RepoAddWizard.qml</file>
@@ -53,8 +53,8 @@
         <file>ui/projects/Deploy.qml</file>
         <file>ui/projects/FetchRepositories.qml</file>
         <file>ui/projects/Search.qml</file>
-        <file>ui/projects/ProjectSettings.qml</file>
         <file>backend/projects/RepositoryDeployConfig.qml</file>
         <file>backend/projects/ProjectSettings.qml</file>
+        <file>ui/projects/ProjectSettings.qml</file>
     </qresource>
 </RCC>

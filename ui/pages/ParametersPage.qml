@@ -6,7 +6,6 @@ import "../sccs"
 CoreLayout {
 
     PluginSettings {
-        id:pluginSettings
         anchors.fill: parent
         anchors.margins: 10
     }

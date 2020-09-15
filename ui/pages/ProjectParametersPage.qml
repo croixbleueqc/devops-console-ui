@@ -1,13 +1,43 @@
 import QtQuick 2.12
+import QtQuick.Controls 2.12
+import QtQuick.Layouts 1.12
 import "../layouts"
 
 import "../projects"
 
 CoreLayout {
 
-    ProjectSettings {
-        id:pluginSettings
+    ScrollView {
+        id: view
         anchors.fill: parent
-        anchors.margins: 10
+
+        GroupBox {
+            anchors.fill: parent
+
+            title: qsTr("Project")
+
+            ColumnLayout {
+                anchors.fill: parent
+
+                TextArea {
+                    id: project
+
+                    placeholderText: qsTr("Configuration")
+                    text: Store.projects_project_settings.project
+
+                    Layout.fillWidth: true
+                }
+
+                Button {
+                    text: qsTr("Save")
+
+                    Layout.alignment: Qt.AlignRight
+
+                    onClicked: {
+                        Store.projects_project_settings.saveSettings(project.text)
+                    }
+                }
+            }
+        }
     }
 }

@@ -1,8 +1,6 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
 
-import "../../backend/sccs" as Backend
-
 Item {
     id: root
 

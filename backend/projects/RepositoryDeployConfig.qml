@@ -25,21 +25,22 @@ WSNetworkAbstract {
         }
 
         for (const env of dataResponse.environments) {
-            for (var j = 0; j < Store.currentProject.length; j++) {
-                if (Store.currentProject[j].envName === env.environment) {
+            for (const project of Store.currentProject) {
+                if (project.envName === env.environment) {
 
                     var isRepoNotFound = true;
-                    for (var z= 0; z < Store.currentProject[j].repositories.length; z++) {
+                    for (const repository of project.repositories) {
 
-                        if ( Store.currentProject[j].repositories[z].name === repositoryName) {
+                        if ( repository.name === repositoryName) {
 
                             isRepoNotFound = false;
-                            Store.currentProject[j].repositories[z].version = env.version;
+                            repository.version = env.version;
+                            break;
                         }
                     }
 
                     if (isRepoNotFound) {
-                        Store.currentProject[j].repositories.push(
+                        project.repositories.push(
                         {
                             name: repositoryName,
                             version: env.version

@@ -2,6 +2,7 @@ pragma Singleton
 
 import QtQuick 2.12
 import "../sccs" as Sccs
+import "../projects" as Projects
 
 Item {
     id: root
@@ -18,6 +19,10 @@ Item {
         {
             name: qsTr("Continuous Deployment"),
             page: "../pages/ContinuousDeploymentPage.qml"
+        },
+        {
+            name: qsTr("Continuous Deployment by Project"),
+            page: "../pages/ContinuousDeploymentByProjectPage.qml"
         },
         {
             name: qsTr("Compliance Report"),
@@ -41,6 +46,11 @@ Item {
 
     // DevOps Sccs Plugin Settings
     property Sccs.PluginSettings sccs_plugin_settings: Sccs.PluginSettings {}
+
+    // DevOps Project Settings
+    property Projects.ProjectSettings projects_project_settings: Projects.ProjectSettings {}
+    property var currentProject: undefined;
+    property bool processing: true;
 
     /* POC
 

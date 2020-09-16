@@ -84,3 +84,75 @@ Store
 ^^^^^
 
 Store will be able to have caching, real time data update, network capabilities (provided with component embedded in StoreLoader) to manage data... it will be the main piece to fetch and share data accross UI components. It uses native Qt binding (see Search.qml as an example)
+
+
+Features 
+--------
+
+Projects
+^^^^^^^^^
+
+Configuration example :
+
+.. code:: bash
+
+  {
+   "projects":[
+      {
+         "name":"Project 1",
+         "environments":[
+            {
+               "name":"Dev",
+               "envName":"master",
+               "deployToEnvName":"qa"
+            },
+            {
+               "name":"Qa",
+               "envName":"qa",
+               "deployToEnvName":"training"
+            },
+            {
+               "name":"Formation",
+               "envName":"training",
+               "deployToEnvName":"acceptation"
+            },
+            {
+               "name":"Accept",
+               "envName":"acceptation",
+               "deployToEnvName":"none"
+            }
+         ],
+         "repositories":[
+            {
+               "name":"{repositoryname}"
+            },
+            {
+               "name":"{repositoryname}"
+            }
+         ]
+      },
+      {
+         "name":"Project 2",
+         "environments":[
+            {
+               "name":"Dev",
+               "envName":"master",
+               "deployToEnvName":"qa"
+            },
+            {
+               "name":"Qa",
+               "envName":"qa",
+               "deployToEnvName":"training"
+            }
+         ],
+         "repositories":[
+            {
+               "name":"{repositoryname}"
+            },
+            {
+               "name":"{repositoryname}"
+            }
+         ]
+      }
+   ]
+  }

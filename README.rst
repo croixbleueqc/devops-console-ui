@@ -86,12 +86,17 @@ Store
 Store will be able to have caching, real time data update, network capabilities (provided with component embedded in StoreLoader) to manage data... it will be the main piece to fetch and share data accross UI components. It uses native Qt binding (see Search.qml as an example)
 
 
-Feature Projects
-^^^^^
+Features 
+--------
 
-Section Project parameters, example :
+Projects
+^^^^^^^^^
 
-{
+Configuration example :
+
+.. code:: bash
+
+  {
    "projects":[
       {
          "name":"Project 1",
@@ -150,4 +155,4 @@ Section Project parameters, example :
          ]
       }
    ]
-}
+  }

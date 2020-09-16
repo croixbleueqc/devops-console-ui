@@ -21,7 +21,6 @@ Item {
             padding: 50
             text: root.environment.name
             font.pixelSize: 20
-            font.family: "AvantGarde-Medium"
             smooth: true
             verticalAlignment: Text.AlignVCenter
             anchors.horizontalCenter: rect.horizontalCenter;

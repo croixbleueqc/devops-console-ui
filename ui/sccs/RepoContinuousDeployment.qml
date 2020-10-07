@@ -41,11 +41,6 @@ Item {
         spacing: 20
         anchors.margins: 20
 
-        Label {
-            id: title
-            text: data.repositoryName
-        }
-
         Repeater {
             model: data.repositoryName !== "" ? data.environments : null
 

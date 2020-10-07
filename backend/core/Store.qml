@@ -13,26 +13,37 @@ Item {
     // default routes
     property var defaultRoutes: [
         {
-            name: qsTr("Welcome"),
-            page: "../pages/WelcomePage.qml"
-        },
-        {
-            name: qsTr("Continuous Deployment"),
-            page: "../pages/ContinuousDeploymentPage.qml"
+            name: qsTr("Repositories Centric"),
+            page: "../pages/SccsPage.qml",
+            icon: {
+                name: "code-class",
+                source: "qrc:/icons/actions/code-class.svg"
+            }
         },
         {
             name: qsTr("Continuous Deployment by Project"),
-            page: "../pages/ContinuousDeploymentByProjectPage.qml"
+            page: "../pages/ContinuousDeploymentByProjectPage.qml",
+            icon: {
+                name: "cloud-upload",
+                source: "qrc:/icons/actions/cloud-upload.svg"
+            }
         },
         {
             name: qsTr("Compliance Report"),
-            page: "../pages/CompliancePage.qml"
+            page: "../pages/CompliancePage.qml",
+            icon: {
+                name: "security-medium-symbolic",
+                source: "qrc:/icons/status/symbolic/security-medium-symbolic.svg"
+            }
         }
 //        ,{
 //            name: "Experimental",
-//            page: "../pages/ExperimentalPage.qml"
+//            page: "../pages/ExperimentalPage.qml",
+//            icon: {
+//                name: "question",
+//                source: "qrc:/icons/actions/question.svg"
+//            }
 //        }
-
     ]
 
     // default router

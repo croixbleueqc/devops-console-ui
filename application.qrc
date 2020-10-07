@@ -13,5 +13,15 @@
         <file>icons/actions/go-next.svg</file>
         <file>icons/actions/go-previous.svg</file>
         <file>icons/status/data-error.svg</file>
+        <file>icons/actions/cloud-upload.svg</file>
+        <file>icons/actions/delete.svg</file>
+        <file>icons/actions/description.svg</file>
+        <file>icons/actions/go-home.svg</file>
+        <file>icons/actions/new-command-alarm.svg</file>
+        <file>icons/actions/question.svg</file>
+        <file>icons/actions/viewlog.svg</file>
+        <file>icons/places/folder-html.svg</file>
+        <file>icons/status/symbolic/security-medium-symbolic.svg</file>
+        <file>icons/actions/code-class.svg</file>
     </qresource>
 </RCC>

@@ -5,6 +5,7 @@ import "../sccs"
 import "../projects"
 
 CoreLayout {
+    headerSecondTitle: qsTr("Settings")
 
     PluginSettings {
         id: pluginSettings

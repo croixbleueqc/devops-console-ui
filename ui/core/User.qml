@@ -11,7 +11,7 @@ ColumnLayout {
     signal settingsClicked()
 
     RowLayout {
-        Text {
+        Label {
             padding: 10
             text: Store.user
 

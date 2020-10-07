@@ -55,5 +55,19 @@
         <file>backend/projects/RepositoryDeployConfig.qml</file>
         <file>backend/projects/ProjectSettings.qml</file>
         <file>ui/projects/ProjectSettings.qml</file>
+        <file>backend/kubernetes/Pods.qml</file>
+        <file>backend/core/WSWatcherAbstract.qml</file>
+        <file>ui/pages/SccsPage.qml</file>
+        <file>backend/kubernetes/DeletePod.qml</file>
+        <file>ui/kubernetes/metadata/MetadataName.qml</file>
+        <file>ui/kubernetes/kind/pod/PodCompact.qml</file>
+        <file>ui/kubernetes/kind/pod/PodStatus.qml</file>
+        <file>ui/kubernetes/kind/pod/ContainerStatus.qml</file>
+        <file>ui/kubernetes/kind/pod/ContainersStatuses.qml</file>
+        <file>ui/fragments/ContinuousDeploymentFragment.qml</file>
+        <file>ui/fragments/PodsFragment.qml</file>
+        <file>ui/core/HeaderPlaceholderLabel.qml</file>
+        <file>ui/sccs/RepoResume.qml</file>
+        <file>backend/sccs/RunnableEnvironments.qml</file>
     </qresource>
 </RCC>

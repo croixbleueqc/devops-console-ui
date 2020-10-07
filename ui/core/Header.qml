@@ -13,9 +13,13 @@ Item {
     property Item placeholderItem: null
     signal openApplicationMenu()
     signal openParametersPage()
+    signal goBack()
 
     property alias showApplicationMenu: applicationMenu.visible
     property alias showUser: user.visible
+    property alias isCanGoBack: back.visible
+    property string mainTitle: qsTr("DevOps Console")
+    property string secondTitle: ""
 
     readonly property WSCom com: WSComOne
 
@@ -34,9 +38,23 @@ Item {
                 onClicked: root.openApplicationMenu()
             }
 
+            ToolButton {
+                id: back
+                icon.name: "go-previous"
+                icon.source: "qrc:/icons/actions/go-previous.svg"
+
+                onClicked: root.goBack()
+            }
+
             Label {
                 id: title
-                text: qsTr("DevOps Console")
+                text: {
+                    if(root.secondTitle !== "") {
+                        return `${root.mainTitle}<br><i>${root.secondTitle}</i>`
+                    }
+
+                    return root.mainTitle
+                }
                 rightPadding: 10
 
                 visible: placeholderItem === null || toolbar.width > 550

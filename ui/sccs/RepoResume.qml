@@ -34,13 +34,9 @@ Item {
             Layout.fillWidth: true
 
             visible: root.repositoryName !== ""
-            enabled: !dataEnvs.processing && dataEnvs.dataResponse.length !== 0
+            enabled: !dataEnvs.processing && dataEnvs.dataResponse && dataEnvs.dataResponse.length !== 0
 
             model: dataEnvs.dataResponse
-
-            onCurrentTextChanged: {
-                console.log(`currentText: ${currentText}`)
-            }
         }
     }
 }

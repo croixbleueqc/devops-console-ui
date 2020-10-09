@@ -1,5 +1,6 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
+import QtQuick.Layouts 1.12
 
 import "../../backend/sccs" as Backend
 import "../common"
@@ -13,6 +14,7 @@ Item {
     property var availables: []
     property string version: ""
     property bool readOnly: false
+    property var pullrequest: null
 
     height: main.height + 20 + Math.max((controls.visible ? controls.height : 0), (applying.visible ? applying.height : 0))
 
@@ -32,7 +34,13 @@ Item {
         version: versions.currentIndex !== -1 ? versions.currentValue : ""
 
         onSuccess: {
-            root.version = versions.currentValue
+            if(root.version === dataResponse.version) {
+                // pending request, we need to reset the selected version
+                updateCurrentIndex()
+            } else {
+                root.version = dataResponse.version
+            }
+            root.pullrequest = dataResponse.pullrequest
         }
 
         onErrorChanged: {
@@ -67,7 +75,7 @@ Item {
     Card {
         anchors.fill: parent
 
-        Column {
+        ColumnLayout {
             id: main
 
             spacing: 10
@@ -76,18 +84,16 @@ Item {
 
             Text {
                 id: branch
+                Layout.alignment: Qt.AlignHCenter
+
                 text: environment
-
-                width: parent.width
-
-                horizontalAlignment: Text.AlignHCenter
             }
 
             ComboBox {
                 id: versions
-                width: parent.width
+                Layout.fillWidth: true
 
-                enabled: !readOnly
+                enabled: !readOnly && root.pullrequest === null
 
                 textRole: "display"
                 valueRole: "version"
@@ -98,9 +104,20 @@ Item {
                     updateCurrentIndex();
                 }
             }
+
+            Label {
+                Layout.alignment: Qt.AlignHCenter
+                visible: root.pullrequest !== null
+
+                bottomPadding: 5
+
+                text: `<a href="${root.pullrequest}">` + qsTr("pending request") + "</a>"
+
+                onLinkActivated: Qt.openUrlExternally(link)
+            }
         }
 
-        Row {
+        RowLayout {
             id: controls
 
             spacing: 10

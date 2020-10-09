@@ -50,6 +50,7 @@ Item {
 
                 version: modelData.version
                 availables: root.availables
+                pullrequest: modelData.pullrequest
                 readOnly: modelData.readonly !== undefined ? modelData.readonly : false
                 repositoryName: root.repositoryName
             }

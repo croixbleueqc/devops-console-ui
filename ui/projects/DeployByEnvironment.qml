@@ -1,52 +1,51 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
 
+import "../common"
+
 Item {
     id: root
 
-    property var environment;
+    property var environment
+    property var nextEnvironment: undefined
 
-    width: parent.width;
-    height: parent.height;
+    implicitHeight: contents.implicitHeight
 
-    Rectangle {
-        id: rect;
-
-        color: "lightgray";
-        width: parent.width;
-        height: parent.height;
-
-        Text {
-            id: env
-            padding: 50
-            text: root.environment.name
-            font.pixelSize: 20
-            smooth: true
-            verticalAlignment: Text.AlignVCenter
-            anchors.horizontalCenter: rect.horizontalCenter;
-        }
+    Card {
+        id: contents
+        width: parent.width
 
         Column {
-            id: contents
+            spacing: 10
+            width: parent.width
 
-            spacing: 20
-            anchors.horizontalCenter: rect.horizontalCenter;
-            anchors.top: env.bottom;
+            Text {
+                text: root.environment.name
+                font.bold: true
+
+                width: parent.width
+                horizontalAlignment: Text.AlignHCenter
+            }
 
             Repeater {
                 model: root.environment.repositories !== undefined ? root.environment.repositories.length : 0
 
                 Rectangle {
-                    id: repo
-                    color: environment.repositories[index].isUpdated === true ? "yellow" : "green";
-                    width: rect.width * 0.8;
-                    height: 100;
+                    color: environment.repositories[index].isUpdated === true ? "lightyellow" : "lightgreen"
+
+                    width: parent.width
+                    height: 130
 
                     DeployRepository {
                         id: project
 
+                        width: parent.width
+                        height: 110
+
+                        anchors.centerIn: parent
+
                         repository: environment.repositories[index]
-                        envNameToDeploy: environment.deployToEnvName
+                        envNameToDeploy: root.nextEnvironment !== undefined ? nextEnvironment.name : "none"
                     }
                 }
             }

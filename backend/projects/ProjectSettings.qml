@@ -5,7 +5,7 @@ import QtPygo.storage 1.0
 Settings {
     id: root
     property string project: ""
-    readonly property var projectObj: project !== "" ? JSON.parse(project) : null
+    readonly property var projectObj: project !== "" ? JSON.parse(project) : []
 
     onReady: {
         console.log("Loading DevOps Sccs project Settings...")
@@ -13,12 +13,12 @@ Settings {
     }
 
     function saveSettings(project_value) {
-        writeSettings("devops_sccs/project", project_value)
+        writeSettings("projects", project_value)
         sync()
         loadSettings()
     }
 
     function loadSettings() {
-        root.project = readSettings("devops_sccs/project", "")
+        root.project = readSettings("projects", "")
     }
 }

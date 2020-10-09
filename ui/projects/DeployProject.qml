@@ -1,16 +1,17 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
+import QtQuick.Layouts 1.12
 
 import "../../backend/core"
-import "../../backend/sccs" as Backend
 
 Item {
     id: root
 
     property alias projectIndex: data.projectIndex
+    property int environmentWidth: 400
 
-    width: scroll.width
-    height: projectIndex !== undefined ? 110 + (130 * Store.projects_project_settings.projectObj.projects[projectIndex].repositories.length) : 0
+    implicitHeight: processing.running ? processing.height : contents.implicitHeight
+    implicitWidth: processing.running ? processing.width : contents.implicitWidth
 
     FetchRepositories {
         id: data
@@ -21,30 +22,27 @@ Item {
         visible: Store.processing
         running: visible
 
-        width: 50
-        height: 50
+        width: 48
+        height: 48
 
         anchors.horizontalCenter: parent.horizontalCenter;
     }
 
 
-    Grid {
+    RowLayout {
         id: contents
-        anchors.horizontalCenter: parent.horizontalCenter;
-        height: parent.height
 
         visible: !Store.processing
 
-        spacing: 20
-        columns: Store.currentProject.length
+        spacing: 10
 
         Repeater {
             model: Store.currentProject.length
 
             DeployByEnvironment {
-                 environment: Store.currentProject[index];
-                 width: (scroll.width * 0.8) / Store.currentProject.length;
-                 height: parent.height
+                width: root.environmentWidth
+                environment: Store.currentProject[index]
+                nextEnvironment: Store.currentProject[index+1]
             }
         }
     }

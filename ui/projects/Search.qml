@@ -15,22 +15,24 @@ Item {
         id: combobox
 
         width: root.width
-        model: Store.projects_project_settings.projectObj.projects
+        model: Store.projects_project_settings.projectObj
 
         textRole: "name"
 
         editable: false
-
-        onAccepted: {
-            if (find(editText) === -1) {
-                console.log("nothing to do")
-            }
-        }
+        flat: true
 
         onCurrentIndexChanged: {
             Store.processing = true;
 
-            Store.currentProject = Store.projects_project_settings.projectObj.projects[search.index].environments;
+            const enabledEnvs = []
+            for(const env of Store.projects_project_settings.projectObj[search.index].environments) {
+                if(env.enabled) {
+                    enabledEnvs.push(Object.assign({}, env))
+                }
+            }
+
+            Store.currentProject = enabledEnvs
 
             for (var i = 0; i < Store.currentProject.length; i++) {
               Store.currentProject[i].repositories = [];

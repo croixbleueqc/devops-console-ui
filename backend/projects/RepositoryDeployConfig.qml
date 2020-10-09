@@ -26,7 +26,7 @@ WSNetworkAbstract {
 
         for (const env of dataResponse.environments) {
             for (const project of Store.currentProject) {
-                if (project.envName === env.environment) {
+                if (project.name === env.environment) {
 
                     var isRepoNotFound = true;
                     for (const repository of project.repositories) {

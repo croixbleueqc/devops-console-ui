@@ -54,7 +54,6 @@
         <file>ui/projects/Search.qml</file>
         <file>backend/projects/RepositoryDeployConfig.qml</file>
         <file>backend/projects/ProjectSettings.qml</file>
-        <file>ui/projects/ProjectSettings.qml</file>
         <file>backend/kubernetes/Pods.qml</file>
         <file>backend/core/WSWatcherAbstract.qml</file>
         <file>ui/pages/SccsPage.qml</file>
@@ -69,5 +68,10 @@
         <file>ui/core/HeaderPlaceholderLabel.qml</file>
         <file>ui/sccs/RepoResume.qml</file>
         <file>backend/sccs/RunnableEnvironments.qml</file>
+        <file>ui/projects/settings/ProjectsSettings.qml</file>
+        <file>ui/projects/settings/Project.qml</file>
+        <file>ui/common/Loading.qml</file>
+        <file>ui/common/Settings.qml</file>
+        <file>ui/projects/settings/CheckingEnvironments.qml</file>
     </qresource>
 </RCC>

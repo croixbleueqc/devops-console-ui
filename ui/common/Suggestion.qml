@@ -15,6 +15,9 @@ Item {
     property alias placeholderSearch: search.placeholderText
     property alias loading: loadingIndicator.visible
 
+    property bool nonPersistentSelection: false
+    signal nonPersistentSelected(var selection)
+
     property var selected: null
     property string selectedText: ""
     property var suggestionToText: (suggestion) => suggestion[root.filterRoleName]
@@ -135,7 +138,14 @@ Item {
                 break
             case Qt.Key_Return:
                 if (suggestions.currentIndex !== -1) {
-                    root.selected = root.json !== null ? proxyModel.get(suggestions.currentIndex) : (proxyModel.get(suggestions.currentIndex)).name
+                    const selection = root.json !== null ? proxyModel.get(suggestions.currentIndex) : (proxyModel.get(suggestions.currentIndex)).name
+
+                    if(root.nonPersistentSelection) {
+                        root.nonPersistentSelected(selection)
+                    } else {
+                        root.selected = selection
+                    }
+
                     suggestionsPopup.close()
                     event.accepted = true
                 }
@@ -213,7 +223,14 @@ Item {
                     highlighted: suggestions.currentIndex === index
 
                     onClicked: {
-                        root.selected = root.json !== null ? proxyModel.get(index) : (proxyModel.get(index)).name
+                        const selection = root.json !== null ? proxyModel.get(index) : (proxyModel.get(index)).name
+
+                        if(root.nonPersistentSelection) {
+                            root.nonPersistentSelected(selection)
+                        } else {
+                            root.selected = selection
+                        }
+
                         suggestionsPopup.close()
                     }
                 }

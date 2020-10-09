@@ -11,10 +11,10 @@ Item {
 
     Repeater {
         id: dataRepository
-        model: Store.projects_project_settings.projectObj.projects[projectIndex].repositories.length
+        model: Store.projects_project_settings.projectObj[projectIndex].repositories.length
 
         Backend.RepositoryDeployConfig {
-            repositoryName: Store.projects_project_settings.projectObj.projects[projectIndex].repositories[index].name
+            repositoryName: Store.projects_project_settings.projectObj[projectIndex].repositories[index]
 
             onProcessingChanged: {
                 if(dataRepository.model === undefined) {

@@ -12,16 +12,12 @@ CoreLayout {
         visible: search.index !== -1
 
         anchors.fill: parent
-        anchors.margins: 10
-
-        contentWidth: project.width
-        contentHeight: project.height + 10
-
-        clip: true
+        padding: 10
 
         DeployProject {
             id: project
-            x: (scroll.width - width)/2
+            x: width < scroll.width ? (scroll.width - width)/2 : 0
+
             projectIndex: search.index
         }
     }

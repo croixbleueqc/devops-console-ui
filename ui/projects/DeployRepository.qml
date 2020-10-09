@@ -1,5 +1,6 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
+import QtQuick.Layouts 1.12
 
 Item {
     id: root
@@ -7,41 +8,37 @@ Item {
     property var repository;
     property var envNameToDeploy;
 
-    height: Math.max(contents.height)
-    width: Math.max(contents.width)
+    implicitHeight: contents.implicitHeight
+    implicitWidth: contents.implicitWidth
 
-    anchors.horizontalCenter: parent.horizontalCenter
-
-    Column {
+    ColumnLayout {
         id: contents
+        anchors.fill: parent
         spacing: 10
 
         Label {
             id: title
+            Layout.alignment: Qt.AlignHCenter
+
             text: root.repository.name
-            font.pointSize: rect.width / 35
-            anchors.horizontalCenter: parent.horizontalCenter
+            font.bold: true
         }
 
         Label {
             id: version
+            Layout.alignment: Qt.AlignHCenter
 
-            font.pointSize: rect.width / 40
             text: root.repository.version
-            anchors.horizontalCenter: parent.horizontalCenter
         }
 
         Deploy {
             id: deploy
+            Layout.alignment: Qt.AlignHCenter
 
             environment: root.envNameToDeploy
-            width: 100
 
             version: root.repository.version
             repositoryName: root.repository.name
-
-            anchors.top: version.bottom
-            anchors.horizontalCenter: parent.horizontalCenter
         }
     }
 }

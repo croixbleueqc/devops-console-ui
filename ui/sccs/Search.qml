@@ -12,6 +12,10 @@ Item {
 
     property string currentText: suggestions.selected !== null ? suggestions.selected.name : ""
     property string proposedRepositoryName: ""
+    property alias placeholderSearch: suggestions.placeholderSearch
+    property bool showAdd: true
+    property alias nonPersistentSelection: suggestions.nonPersistentSelection
+    signal nonPersistentSelected(var selection)
 
     Backend.Repositories {
         id: repos
@@ -24,7 +28,7 @@ Item {
 
         filterRoleName: "name"
         maxVisibleSuggestions: 4
-        showAdd: true
+        showAdd: root.showAdd
 
         json: repos.dataResponse
 
@@ -34,6 +38,8 @@ Item {
             root.proposedRepositoryName = newValue
             loadRepoAddWizard.active = true
         }
+
+        onNonPersistentSelected: root.nonPersistentSelected(selection)
     }
 
     Component {

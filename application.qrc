@@ -23,5 +23,9 @@
         <file>icons/places/folder-html.svg</file>
         <file>icons/status/symbolic/security-medium-symbolic.svg</file>
         <file>icons/actions/code-class.svg</file>
+        <file>icons/actions/code-context.svg</file>
+        <file>icons/actions/dialog-cancel.svg</file>
+        <file>icons/actions/dialog-ok.svg</file>
+        <file>icons/actions/document-save.svg</file>
     </qresource>
 </RCC>

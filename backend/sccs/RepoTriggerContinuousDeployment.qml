@@ -7,6 +7,7 @@ WSNetworkAbstract {
     property string repositoryName: ""
     property string environment: ""
     property string version: ""
+    property var pullrequest: null
 
     com: WSComOne
 
@@ -18,5 +19,9 @@ WSNetworkAbstract {
         "repository": repositoryName,
         "environment": environment,
         "version": version
+    }
+
+    onSuccess: {
+        root.pullrequest = dataResponse.pullrequest
     }
 }

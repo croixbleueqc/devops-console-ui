@@ -14,7 +14,7 @@ Item {
     property var availables: []
     property string version: ""
     property bool readOnly: false
-    property var pullrequest: null
+    property alias pullrequest: backend.pullrequest
 
     height: main.height + 20 + Math.max((controls.visible ? controls.height : 0), (applying.visible ? applying.height : 0))
 
@@ -40,7 +40,6 @@ Item {
             } else {
                 root.version = dataResponse.version
             }
-            root.pullrequest = dataResponse.pullrequest
         }
 
         onErrorChanged: {

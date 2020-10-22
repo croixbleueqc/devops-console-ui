@@ -7,6 +7,7 @@ WSNetworkAbstract {
     property string repositoryName: ""
     property var environments: []
     property var availables: []
+    property var args: null
 
     com: WSComOne
     autoReset: true
@@ -15,7 +16,8 @@ WSNetworkAbstract {
     dataRequest: {
         "plugin": Store.sccs_plugin_settings.plugin,
         "session": Store.sccs_plugin_settings.sessionObj,
-        "repository": repositoryName
+        "repository": repositoryName,
+        "args": args
     }
 
     onDataRequestChanged: repositoryName !== "" && send()

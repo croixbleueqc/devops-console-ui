@@ -8,8 +8,8 @@ Item {
     property bool inline: true
     property int busySize: 32
 
-    implicitHeight: inline ? Math.max(indicator.implicitHeight, msg.implicitHeight) : indicator.implicitHeight + msg.implicitHeight
-    implicitWidth: inline ? indicator.implicitWidth + msg.implicitWidth : Math.max(indicator.implicitWidth, msg.implicitWidth)
+    implicitHeight: inline ? Math.max(indicator.height, msg.implicitHeight) : indicator.height + msg.implicitHeight
+    implicitWidth: inline ? indicator.width + msg.implicitWidth : Math.max(indicator.width, msg.implicitWidth)
 
     states: [
         State {

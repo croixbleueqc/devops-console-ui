@@ -21,24 +21,5 @@ Item {
 
         editable: false
         flat: true
-
-        onCurrentIndexChanged: {
-            Store.processing = true;
-
-            const enabledEnvs = []
-            for(const env of Store.projects_project_settings.projectObj[search.index].environments) {
-                if(env.enabled) {
-                    enabledEnvs.push(Object.assign({}, env))
-                }
-            }
-
-            Store.currentProject = enabledEnvs
-
-            for (var i = 0; i < Store.currentProject.length; i++) {
-              Store.currentProject[i].repositories = [];
-            }
-
-            Store.currentProjectChanged();
-        }
     }
 }

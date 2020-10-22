@@ -46,13 +46,7 @@
         <file>backend/sccs/ReposComplianceReport.qml</file>
         <file>ui/pages/CompliancePage.qml</file>
         <file>ui/sccs/ComplianceReport.qml</file>
-        <file>ui/projects/DeployByEnvironment.qml</file>
-        <file>ui/projects/DeployProject.qml</file>
-        <file>ui/projects/DeployRepository.qml</file>
-        <file>ui/projects/Deploy.qml</file>
-        <file>ui/projects/FetchRepositories.qml</file>
         <file>ui/projects/Search.qml</file>
-        <file>backend/projects/RepositoryDeployConfig.qml</file>
         <file>backend/projects/ProjectSettings.qml</file>
         <file>backend/kubernetes/Pods.qml</file>
         <file>backend/core/WSWatcherAbstract.qml</file>
@@ -73,5 +67,9 @@
         <file>ui/common/Loading.qml</file>
         <file>ui/common/Settings.qml</file>
         <file>ui/projects/settings/CheckingEnvironments.qml</file>
+        <file>ui/projects/Workflow.qml</file>
+        <file>ui/projects/WorkflowRepositories.qml</file>
+        <file>ui/projects/WorkflowRepository.qml</file>
+        <file>backend/projects/ProjectContinuousDeploymentConfig.qml</file>
     </qresource>
 </RCC>

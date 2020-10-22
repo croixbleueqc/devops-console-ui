@@ -60,8 +60,6 @@ Item {
 
     // DevOps Project Settings
     property Projects.ProjectSettings projects_project_settings: Projects.ProjectSettings {}
-    property var currentProject: undefined;
-    property bool processing: true;
 
     /* POC
 

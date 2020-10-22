@@ -90,12 +90,19 @@ Item {
             anchors.margins: 10
 
             Label {
+                Layout.fillWidth: true
+
                 text: root.repositoryName
+                elide: Text.ElideRight
+
                 font.bold: true
             }
 
             Label {
+                Layout.fillWidth: true
+
                 text: root.version
+                elide: Text.ElideMiddle
 
                 font.italic: true
             }

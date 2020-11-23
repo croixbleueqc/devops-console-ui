@@ -11,6 +11,12 @@ Item {
         return repeatWorkflowRepository.itemAt(index)
     }
 
+    function update(repositories) {
+        for (var index=0; index<repeatWorkflowRepository.count; index++) {
+            repeatWorkflowRepository.itemAt(index).update(repositories[index].version)
+        }
+    }
+
     onPipeChanged: {
         // Pipe relevant repositories together
 

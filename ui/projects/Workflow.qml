@@ -121,9 +121,53 @@ Item {
     }
 
     Flickable {
+        id: middles
+
+        implicitHeight: middlesContents.implicitHeight
+        contentHeight: middlesContents.implicitHeight
+        contentWidth: middlesContents.implicitWidth
+        anchors.top: headers.bottom
+        width: parent.width
+
+        visible: !data.processing
+
+        interactive: false
+        contentX: repositories.contentX
+
+        RowLayout {
+            id: middlesContents
+
+            x: width < middles.width ? (middles.width - width)/2 : 0
+
+            spacing: 10
+
+            Repeater {
+                model: root.repositoriesPerEnvironments
+
+                Card {
+                    contentWidth: root.preferredReposPerEnvWidth
+
+                    Button {
+                        text: "Push"
+                        onClicked: {
+
+                            for (var index=0; index<repeatWorkflowRepostitories.model.length; index++) {
+
+                                if (repeatWorkflowRepostitories.model[index].environment === modelData.environment){
+                                    repeatWorkflowRepostitories.itemAt(index).pipe.update(repeatWorkflowRepostitories.model[index].repositories);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    Flickable {
         id: repositories
 
-        anchors.top: headers.bottom
+        anchors.top: middles.bottom
         anchors.bottom: parent.bottom
         width: parent.width
 

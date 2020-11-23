@@ -6,6 +6,7 @@ Item {
     property string environment: ""
     property int repositoryHeight: 130
     property WorkflowRepositories pipe: null
+    property bool canPush: false
 
     function workflowRepositoryAt(index) {
         return repeatWorkflowRepository.itemAt(index)
@@ -13,7 +14,9 @@ Item {
 
     function update(repositories) {
         for (var index=0; index<repeatWorkflowRepository.count; index++) {
-            repeatWorkflowRepository.itemAt(index).update(repositories[index].version)
+            if(repeatWorkflowRepository.itemAt(index).version !== repositories[index].version) {
+                repeatWorkflowRepository.itemAt(index).update(repositories[index].version)
+            }
         }
     }
 
@@ -46,6 +49,14 @@ Item {
                 repositoryName: modelData.name
                 version: modelData.version
                 pullrequest: modelData.pullrequest !== undefined ? modelData.pullrequest : null
+
+                onCanPushChanged: {
+                    for (var index=0; index<repeatWorkflowRepository.count; index++) {
+                        if(repeatWorkflowRepository.itemAt(index).canPush) {
+                            root.canPush = true;
+                        }
+                    }
+                }
             }
         }
     }

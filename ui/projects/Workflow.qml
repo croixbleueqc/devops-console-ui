@@ -142,13 +142,20 @@ Item {
             spacing: 10
 
             Repeater {
+                id: btnRepeater
                 model: root.repositoriesPerEnvironments
 
                 Card {
                     contentWidth: root.preferredReposPerEnvWidth
+                    property alias canPush: btnPush.visible
 
                     Button {
+                        id: btnPush
                         text: "Push"
+                        width: root.preferredReposPerEnvWidth
+                        padding: 5
+                        font.bold: true
+
                         onClicked: {
 
                             for (var index=0; index<repeatWorkflowRepostitories.model.length; index++) {
@@ -192,8 +199,7 @@ Item {
 
             Repeater {
                 id: repeatWorkflowRepostitories
-                model: root.repositoriesPerEnvironments
-
+                model: btnRepeater.count > 0 ? root.repositoriesPerEnvironment : null
                 Card {
                     property alias pipe: workflowRepository.pipe
 
@@ -208,6 +214,12 @@ Item {
                         Component.onCompleted: {
                             if(index > 0) {
                                 repeatWorkflowRepostitories.itemAt(index - 1).pipe = this
+                            }
+                        }
+
+                        onCanPushChanged: {
+                            if (btnRepeater.count > 0) {
+                                btnRepeater.itemAt(index).canPush = canPush
                             }
                         }
                     }

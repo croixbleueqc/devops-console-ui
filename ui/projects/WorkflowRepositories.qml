@@ -7,18 +7,16 @@ Item {
     property int repositoryHeight: 130
     property WorkflowRepositories pipe: null
 
-    property bool canPush: false
-    property var cdRepos: []
+    readonly property alias canPush: repeatWorkflowRepository.canPush
 
     function workflowRepositoryAt(index) {
         return repeatWorkflowRepository.itemAt(index)
     }
 
-    function update(repositories) {
-        for (var index=0; index<repeatWorkflowRepository.count; index++) {
-            if(repeatWorkflowRepository.itemAt(index).version !== repositories[index].version
-                    && repeatWorkflowRepository.itemAt(index).pullrequest === null) {
-                repeatWorkflowRepository.itemAt(index).update(repositories[index].version)
+    function push() {
+        if(root.canPush) {
+            for (var index=0; index<repeatWorkflowRepository.count; index++) {
+                repeatWorkflowRepository.itemAt(index).push()
             }
         }
     }
@@ -42,6 +40,9 @@ Item {
 
         Repeater {
             id: repeatWorkflowRepository
+
+            property bool canPush: false
+
             model: root.repositories
 
             WorkflowRepository {
@@ -54,20 +55,19 @@ Item {
                 pullrequest: modelData.pullrequest !== undefined ? modelData.pullrequest : null
 
                 onCanPushChanged: {
+                    if (canPush) {
+                        repeatWorkflowRepository.canPush = true
+                        return
+                    }
 
-                    var pushAvailable = false
                     for (var index=0; index<repeatWorkflowRepository.count; index++) {
                         if(repeatWorkflowRepository.itemAt(index).canPush) {
-                            pushAvailable = canPush || pushAvailable;
+                            repeatWorkflowRepository.canPush = true
+                            return
                         }
                     }
 
-                    root.canPush = pushAvailable
-                }
-
-                onCdVersionChanged: {
-                    root.repositories[index].version = cdVersion
-                    cdRepos = root.repositories
+                    repeatWorkflowRepository.canPush = false
                 }
             }
         }

@@ -10,6 +10,7 @@ Item {
     property alias project: data.project
     property int preferredReposPerEnvWidth: 350
     property int preferredRepoHeight: 130
+    property int preferredHeaderHeight: 48
 
     property var repositoriesPerEnvironments: []
 
@@ -104,61 +105,33 @@ Item {
 
                 Card {
                     contentWidth: root.preferredReposPerEnvWidth
+                    contentHeight: root.preferredHeaderHeight
 
-                    Label {
-                        id: content
-                        text: modelData.environment
-                        width: root.preferredReposPerEnvWidth
-                        horizontalAlignment: Text.AlignHCenter
+                    RowLayout {
+                        anchors.fill: parent
 
-                        padding: 5
+                        Label {
+                            id: content
+                            text: modelData.environment
+                            Layout.fillWidth: true
+                            horizontalAlignment: Text.AlignHCenter
 
-                        font.bold: true
-                    }
-                }
-            }
-        }
-    }
+                            padding: 5
 
-    Flickable {
-        id: commands
+                            font.bold: true
+                        }
 
-        implicitHeight: commandsContents.implicitHeight
-        contentHeight: commandsContents.implicitHeight
-        contentWidth: commandsContents.implicitWidth
-        anchors.top: headers.bottom
-        width: parent.width
+                        Button {
+                            Layout.alignment: Qt.AlignRight
 
-        visible: !data.processing
+                            visible: {
+                                const workflowRepositories = repeatWorkflowRepostitories.itemAt(index)
+                                return workflowRepositories !== null && workflowRepositories.canPush
+                            }
 
-        interactive: false
-        contentX: repositories.contentX
+                            text: qsTr("Push for all")
 
-        RowLayout {
-            id: commandsContents
-
-            x: width < commands.width ? (commands.width - width)/2 : 0
-
-            spacing: 10
-
-            Repeater {
-                id: commandByEnv
-                model: root.repositoriesPerEnvironments
-
-                Card {
-                    contentWidth: root.preferredReposPerEnvWidth
-                    property bool canPush: repeatWorkflowRepostitories.itemAt(index).canPush
-                    property var cdRepos: repeatWorkflowRepostitories.model[index].repositories
-
-                    Button {
-                        text: "Push"
-                        width: root.preferredReposPerEnvWidth
-                        visible: canPush
-                        padding: 5
-                        font.bold: true
-
-                        onClicked: {
-                            repeatWorkflowRepostitories.itemAt(index).pipe.update(cdRepos);
+                            onClicked: repeatWorkflowRepostitories.itemAt(index).push()
                         }
                     }
                 }
@@ -169,7 +142,7 @@ Item {
     Flickable {
         id: repositories
 
-        anchors.top: commands.bottom
+        anchors.top: headers.bottom
         anchors.bottom: parent.bottom
         width: parent.width
 
@@ -199,6 +172,7 @@ Item {
                 Card {
                     property alias pipe: workflowRepository.pipe
                     property alias canPush: workflowRepository.canPush
+                    property var push: workflowRepository.push
 
                     WorkflowRepositories {
                         id: workflowRepository
@@ -211,18 +185,6 @@ Item {
                         Component.onCompleted: {
                             if(index > 0) {
                                 repeatWorkflowRepostitories.itemAt(index - 1).pipe = this
-                            }
-                        }
-
-                        onCanPushChanged: {
-                            if (commandByEnv.count > 0) {
-                                commandByEnv.itemAt(index).canPush = canPush
-                            }
-                        }
-
-                        onCdReposChanged: {
-                            if (commandByEnv.count > 0) {
-                                commandByEnv.itemAt(index).cdRepos = cdRepos
                             }
                         }
                     }

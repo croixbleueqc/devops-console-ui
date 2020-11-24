@@ -16,7 +16,6 @@ Item {
     property WorkflowRepository pipe: null
 
     readonly property bool canPush: root.pipe && root.pipe.pullrequest === null && root.pipe.version !== root.version
-    readonly property alias cdVersion: triggerCd.version
 
     readonly property alias error: triggerCd.error
     readonly property alias processing: triggerCd.processing
@@ -28,6 +27,12 @@ Item {
     function update(newVersion) {
         triggerCd.version = newVersion
         triggerCd.send()
+    }
+
+    function push() {
+        if(root.canPush && !root.processing && !root.pipe.processing) {
+            root.pipe.update(root.version)
+        }
     }
 
     states: [
@@ -141,7 +146,7 @@ Item {
 
                 highlighted: root.pipe && root.pipe.isError()
 
-                onClicked: root.pipe.update(root.version)
+                onClicked: root.push()
             }
 
         }

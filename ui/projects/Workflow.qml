@@ -217,7 +217,6 @@ Item {
                         onCanPushChanged: {
                             if (commandByEnv.count > 0) {
                                 commandByEnv.itemAt(index).canPush = canPush
-                                console.log(commandByEnv.itemAt(index).canPush)
                             }
                         }
 

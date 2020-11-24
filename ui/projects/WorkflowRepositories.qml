@@ -6,7 +6,9 @@ Item {
     property string environment: ""
     property int repositoryHeight: 130
     property WorkflowRepositories pipe: null
+
     property bool canPush: false
+    property var cdRepos: []
 
     function workflowRepositoryAt(index) {
         return repeatWorkflowRepository.itemAt(index)
@@ -14,7 +16,8 @@ Item {
 
     function update(repositories) {
         for (var index=0; index<repeatWorkflowRepository.count; index++) {
-            if(repeatWorkflowRepository.itemAt(index).version !== repositories[index].version) {
+            if(repeatWorkflowRepository.itemAt(index).version !== repositories[index].version
+                    && repeatWorkflowRepository.itemAt(index).pullrequest === null) {
                 repeatWorkflowRepository.itemAt(index).update(repositories[index].version)
             }
         }
@@ -51,11 +54,20 @@ Item {
                 pullrequest: modelData.pullrequest !== undefined ? modelData.pullrequest : null
 
                 onCanPushChanged: {
+
+                    var pushAvailable = false
                     for (var index=0; index<repeatWorkflowRepository.count; index++) {
                         if(repeatWorkflowRepository.itemAt(index).canPush) {
-                            root.canPush = true;
+                            pushAvailable = canPush || pushAvailable;
                         }
                     }
+
+                    root.canPush = pushAvailable
+                }
+
+                onCdVersionChanged: {
+                    root.repositories[index].version = cdVersion
+                    cdRepos = root.repositories
                 }
             }
         }

@@ -16,6 +16,7 @@ Item {
     property WorkflowRepository pipe: null
 
     readonly property bool canPush: root.pipe && root.pipe.pullrequest === null && root.pipe.version !== root.version
+    readonly property alias cdVersion: triggerCd.version
 
     readonly property alias error: triggerCd.error
     readonly property alias processing: triggerCd.processing

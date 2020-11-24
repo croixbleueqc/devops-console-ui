@@ -148,6 +148,7 @@ Item {
                 Card {
                     contentWidth: root.preferredReposPerEnvWidth
                     property bool canPush: repeatWorkflowRepostitories.itemAt(index).canPush
+                    property var cdRepos: repeatWorkflowRepostitories.model[index].repositories
 
                     Button {
                         text: "Push"
@@ -157,14 +158,7 @@ Item {
                         font.bold: true
 
                         onClicked: {
-
-                            for (var index=0; index<repeatWorkflowRepostitories.model.length; index++) {
-
-                                if (repeatWorkflowRepostitories.model[index].environment === modelData.environment){
-                                    repeatWorkflowRepostitories.itemAt(index).pipe.update(repeatWorkflowRepostitories.model[index].repositories);
-                                    canPush = false;
-                                }
-                            }
+                            repeatWorkflowRepostitories.itemAt(index).pipe.update(cdRepos);
                         }
                     }
                 }
@@ -223,6 +217,13 @@ Item {
                         onCanPushChanged: {
                             if (commandByEnv.count > 0) {
                                 commandByEnv.itemAt(index).canPush = canPush
+                                console.log(commandByEnv.itemAt(index).canPush)
+                            }
+                        }
+
+                        onCdReposChanged: {
+                            if (commandByEnv.count > 0) {
+                                commandByEnv.itemAt(index).cdRepos = cdRepos
                             }
                         }
                     }

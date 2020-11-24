@@ -121,11 +121,11 @@ Item {
     }
 
     Flickable {
-        id: middles
+        id: commands
 
-        implicitHeight: middlesContents.implicitHeight
-        contentHeight: middlesContents.implicitHeight
-        contentWidth: middlesContents.implicitWidth
+        implicitHeight: commandsContents.implicitHeight
+        contentHeight: commandsContents.implicitHeight
+        contentWidth: commandsContents.implicitWidth
         anchors.top: headers.bottom
         width: parent.width
 
@@ -135,24 +135,24 @@ Item {
         contentX: repositories.contentX
 
         RowLayout {
-            id: middlesContents
+            id: commandsContents
 
-            x: width < middles.width ? (middles.width - width)/2 : 0
+            x: width < commands.width ? (commands.width - width)/2 : 0
 
             spacing: 10
 
             Repeater {
-                id: btnRepeater
+                id: commandByEnv
                 model: root.repositoriesPerEnvironments
 
                 Card {
                     contentWidth: root.preferredReposPerEnvWidth
-                    property alias canPush: btnPush.visible
+                    property bool canPush: repeatWorkflowRepostitories.itemAt(index).canPush
 
                     Button {
-                        id: btnPush
                         text: "Push"
                         width: root.preferredReposPerEnvWidth
+                        visible: canPush
                         padding: 5
                         font.bold: true
 
@@ -162,6 +162,7 @@ Item {
 
                                 if (repeatWorkflowRepostitories.model[index].environment === modelData.environment){
                                     repeatWorkflowRepostitories.itemAt(index).pipe.update(repeatWorkflowRepostitories.model[index].repositories);
+                                    canPush = false;
                                 }
                             }
                         }
@@ -174,7 +175,7 @@ Item {
     Flickable {
         id: repositories
 
-        anchors.top: middles.bottom
+        anchors.top: commands.bottom
         anchors.bottom: parent.bottom
         width: parent.width
 
@@ -199,9 +200,11 @@ Item {
 
             Repeater {
                 id: repeatWorkflowRepostitories
-                model: btnRepeater.count > 0 ? root.repositoriesPerEnvironment : null
+                model: root.repositoriesPerEnvironments
+
                 Card {
                     property alias pipe: workflowRepository.pipe
+                    property alias canPush: workflowRepository.canPush
 
                     WorkflowRepositories {
                         id: workflowRepository
@@ -218,8 +221,8 @@ Item {
                         }
 
                         onCanPushChanged: {
-                            if (btnRepeater.count > 0) {
-                                btnRepeater.itemAt(index).canPush = canPush
+                            if (commandByEnv.count > 0) {
+                                commandByEnv.itemAt(index).canPush = canPush
                             }
                         }
                     }

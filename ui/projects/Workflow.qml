@@ -10,6 +10,7 @@ Item {
     property alias project: data.project
     property int preferredReposPerEnvWidth: 350
     property int preferredRepoHeight: 130
+    property int preferredHeaderHeight: 48
 
     property var repositoriesPerEnvironments: []
 
@@ -104,16 +105,34 @@ Item {
 
                 Card {
                     contentWidth: root.preferredReposPerEnvWidth
+                    contentHeight: root.preferredHeaderHeight
 
-                    Label {
-                        id: content
-                        text: modelData.environment
-                        width: root.preferredReposPerEnvWidth
-                        horizontalAlignment: Text.AlignHCenter
+                    RowLayout {
+                        anchors.fill: parent
 
-                        padding: 5
+                        Label {
+                            id: content
+                            text: modelData.environment
+                            Layout.fillWidth: true
+                            horizontalAlignment: Text.AlignHCenter
 
-                        font.bold: true
+                            padding: 5
+
+                            font.bold: true
+                        }
+
+                        Button {
+                            Layout.alignment: Qt.AlignRight
+
+                            visible: {
+                                const workflowRepositories = repeatWorkflowRepostitories.itemAt(index)
+                                return workflowRepositories !== null && workflowRepositories.canPush
+                            }
+
+                            text: qsTr("Push for all")
+
+                            onClicked: repeatWorkflowRepostitories.itemAt(index).push()
+                        }
                     }
                 }
             }
@@ -152,6 +171,8 @@ Item {
 
                 Card {
                     property alias pipe: workflowRepository.pipe
+                    property alias canPush: workflowRepository.canPush
+                    property var push: workflowRepository.push
 
                     WorkflowRepositories {
                         id: workflowRepository

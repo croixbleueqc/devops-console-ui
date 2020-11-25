@@ -29,6 +29,12 @@ Item {
         triggerCd.send()
     }
 
+    function push() {
+        if(root.canPush && !root.processing && !root.pipe.processing) {
+            root.pipe.update(root.version)
+        }
+    }
+
     states: [
         State {
             name: "no_action"
@@ -140,7 +146,7 @@ Item {
 
                 highlighted: root.pipe && root.pipe.isError()
 
-                onClicked: root.pipe.update(root.version)
+                onClicked: root.push()
             }
 
         }

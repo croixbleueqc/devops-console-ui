@@ -85,7 +85,7 @@ Item {
             Label {
                 text: qsTr("There is no pods available !")
 
-                visible: !dataPods.processing && modelPods.count === 0
+                visible: !dataPods.processing && dataPods.dataResponse.count === 0
 
                 width: parent.width
                 topPadding: 10
@@ -94,9 +94,7 @@ Item {
 
             Repeater {
                 width: parent.width
-                model: ListModel {
-                    id: modelPods
-                }
+                model: dataPods.dataResponse
 
                 PodCompact {
                     width: parent.width
@@ -113,11 +111,6 @@ Item {
 
     Pods {
         id: dataPods
-
-        onAdded: modelPods.append({raw: value})
-        onModified: modelPods.set(index, {raw: value})
-        onDeleted: modelPods.remove(index)
-
         onErrorChanged: console.log(error)
     }
 }

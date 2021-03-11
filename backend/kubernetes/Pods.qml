@@ -1,7 +1,7 @@
 import QtQuick 2.12
 import "../core"
 
-WSWatcherAbstract {
+WSWatcherModelAbstract {
     id: root
 
     com: WSComOne

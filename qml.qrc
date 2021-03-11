@@ -71,5 +71,6 @@
         <file>ui/projects/WorkflowRepositories.qml</file>
         <file>ui/projects/WorkflowRepository.qml</file>
         <file>backend/projects/ProjectContinuousDeploymentConfig.qml</file>
+        <file>backend/core/WSWatcherModelAbstract.qml</file>
     </qresource>
 </RCC>

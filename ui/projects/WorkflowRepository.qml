@@ -1,154 +1,274 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtQuick.Layouts 1.12
-import QtQuick.Controls.Material 2.12
 
-import "../../backend/sccs"
+import "../../backend/sccs" as Backend
 import "../common"
 
 Item {
     id: root
 
-    property string environment: ""
     property string repositoryName: ""
-    property string version: ""
-    property alias pullrequest: triggerCd.pullrequest
-    property WorkflowRepository pipe: null
+    property alias filter_environments: data.filter_environments
+    property int repositoryHeight: 130
+    property int repositoryWidth: 350
+    property alias envPerRow: contents.columns
+    property string mode: "row"
 
-    readonly property bool canPush: root.pipe && root.pipe.pullrequest === null && root.pipe.version !== root.version
+    signal canPushChanged(int index, bool value)
 
-    readonly property alias error: triggerCd.error
-    readonly property alias processing: triggerCd.processing
-    readonly property var isError: triggerCd.isError
+    implicitHeight: contents.implicitHeight
+    implicitWidth: contents.implicitWidth
 
-    implicitHeight: decoration.implicitHeight
-    implicitWidth: decoration.implicitWidth
-
-    function update(newVersion) {
-        triggerCd.version = newVersion
-        triggerCd.send()
-    }
-
-    function push() {
-        if(root.canPush && !root.processing && !root.pipe.processing) {
-            root.pipe.update(root.version)
+    function push(index) {
+        const item = repeaterWorkflowRepositoryByEnv.itemAt(index)
+        if (item !== null) {
+           item.push()
         }
     }
 
-    states: [
-        State {
-            name: "no_action"
-            when: !root.canPush && root.pullrequest === null
-            PropertyChanges { target: decoration; color: "lightgreen"; border.color: "lightgreen" }
-        },
-        State {
-            name: "push"
-            when: root.canPush && !root.pipe.isError() && root.pullrequest === null
-            PropertyChanges { target: decoration; color: "transparent"; border.color: "lightgreen" }
-        },
-        State {
-            name: "retry_push"
-            when: root.canPush && root.pipe.isError() && root.pullrequest === null
-            PropertyChanges { target: decoration; color: "transparent"; border.color: Material.accentColor}
-        },
-        State {
-            name: "pushing"
-            when: root.canPush && root.pipe.processing && root.pullrequest === null
-            PropertyChanges { target: decoration; color: "transparent"; border.color: "lightgreen"}
-        },
-        State {
-            name: "pending_request"
-            when: root.pullrequest !== null
-            PropertyChanges { target: decoration; color: "transparent"; border.color: Material.accentColor}
-        }
-    ]
+    Backend.WatchContinousDeploymentConfig {
+        id: data
 
-    RepoTriggerContinuousDeployment {
-        id: triggerCd
-        environment: root.environment
         repositoryName: root.repositoryName
+    }
 
-        onSuccess: {
-            if(dataResponse.version !== root.version) {
-                root.version = dataResponse.version
+    Backend.WatchContinuousDeploymentVersionsAvailable {
+        id: dataVersionsAvailable
+
+        repositoryName: root.repositoryName
+    }
+
+    GridLayout {
+        id: contents
+
+        columnSpacing: 10
+        rowSpacing: 10
+        anchors.margins: 10
+
+        Loading {
+            Layout.alignment: Qt.AlignHCenter
+
+            visible: data.processing
+
+            message: qsTr("Collecting continous deployment configurations for %1").arg(root.repositoryName)
+        }
+
+        Label {
+            Layout.fillWidth: true
+            topPadding: 10
+            horizontalAlignment: Text.AlignHCenter
+
+            visible: !data.processing && data.dataResponse.count === 0
+
+            text: qsTr("There is no continous deployment configurations available for %1").arg(root.repositoryName)
+        }
+
+        Repeater {
+            id: repeaterWorkflowRepositoryByEnv
+            model: data.dataResponse
+
+            delegate: {
+                switch(root.mode){
+                case "independent":
+                    return independentCpt
+                default:
+                    return rowCpt
+                }
             }
         }
+    }
 
-        onErrorChanged: {
-            console.log(error)
+    Dialog {
+        id: dialogVersionsAvailable
+
+        property string currentVersion: ""
+        property WorkflowRepositoryByEnv itemEdited: null
+
+        anchors.centerIn: Overlay.overlay
+
+        title: qsTr("Deploy a new version")
+        standardButtons: Dialog.Apply | Dialog.Cancel
+        modal: true
+
+        onCurrentVersionChanged: {
+            versions.lastIndex = -1
+            versions.updateCurrentIndex()
+        }
+
+        onClosed: {
+            currentVersion = ""
+        }
+
+        onApplied: {
+            if (versions.currentIndex !== -1) {
+                const versionSelected = versions.model.get(versions.currentIndex).raw.version
+                if (versionSelected !== currentVersion) {
+                    itemEdited.localUpdate(versionSelected)
+                }
+            }
+
+            close()
+        }
+
+        GridLayout {
+            anchors.fill: parent
+            columnSpacing: 20
+            rowSpacing: 10
+            columns: 2
+
+            Label { text: qsTr("Repository:") }
+            Label { text: root.repositoryName; font.italic: true}
+
+            Label { text: qsTr("Environment:") }
+            Label { text: dialogVersionsAvailable.itemEdited && dialogVersionsAvailable.itemEdited.environment; font.italic: true }
+
+            Label { text: qsTr("Current version:") }
+            Label { text: dialogVersionsAvailable.currentVersion; font.italic: true }
+
+            MenuSeparator { Layout.columnSpan: 2; Layout.fillWidth: true }
+
+            Label { Layout.columnSpan: 2; text: qsTr("Choose a new version:") }
+
+            Loading {
+                Layout.columnSpan: 2
+                Layout.fillWidth: true
+
+                visible: dataVersionsAvailable.processing
+            }
+
+            ComboBox {
+                id: versions
+                Layout.columnSpan: 2
+                Layout.fillWidth: true
+
+                property int lastIndex: -1
+
+                visible: !dataVersionsAvailable.processing
+                model: dataVersionsAvailable.dataResponse
+
+                function itemToText(item) {
+                    return item.build + " - " + item.version
+                }
+
+                function updateCurrentIndex() {
+                    if(dialogVersionsAvailable.currentVersion === "") {
+                        currentIndex = -1
+                        return
+                    }
+
+                    for(let i=versions.lastIndex+1; i<count; i++) {
+                        if(model.get(i).raw.version === dialogVersionsAvailable.currentVersion) {
+                            currentIndex = i
+                            return
+                        }
+                    }
+                }
+
+                delegate: ItemDelegate {
+                    width: parent ? parent.width : 0
+                    text: versions.itemToText(raw)
+                }
+
+                displayText: currentIndex === -1 ? "" : itemToText(model.get(currentIndex).raw)
+
+                onCountChanged: {
+                    if(currentIndex === -1) {
+                        updateCurrentIndex()
+                    }
+                }
+            }
         }
     }
 
-    Rectangle {
-        id: decoration
+    Component {
+        id: rowCpt
 
-        implicitHeight: contents.implicitHeight + contents.anchors.margins * 2
-        implicitWidth: contents.implicitWidth + contents.anchors.margins * 2
+        WorkflowRepositoryByEnv {
+            id: workflowRepository
 
-        anchors.fill: parent
+            Layout.preferredWidth: root.repositoryWidth
+            Layout.preferredHeight: root.repositoryHeight
 
-        radius: 5
-        border.width: 2
+            environment: raw.environment
+            version: raw.version
+            pullrequest: raw.pullrequest
+            readonly: raw.readonly !== undefined ? raw.readonly : false
+            repositoryName: root.repositoryName
+
+            onCanPushChanged: {
+                root.canPushChanged(index, canPush)
+            }
+
+            onEditClicked: {
+                if (!dataVersionsAvailable.watching) { dataVersionsAvailable.watch() }
+                dialogVersionsAvailable.currentVersion = raw.version
+                dialogVersionsAvailable.itemEdited = source
+                dialogVersionsAvailable.open()
+            }
+
+            Component.onCompleted: {
+                if (index > 0) {
+                    repeaterWorkflowRepositoryByEnv.itemAt(index - 1).pipe = this
+                }
+            }
+        }
+    }
+
+    Component {
+        id: independentCpt
 
         ColumnLayout {
-            id: contents
-            anchors.fill: parent
-            anchors.margins: 10
+            property alias pipe: workflowRepository.pipe
+            property alias canPush: workflowRepository.canPush
+            property var push: workflowRepository.push
 
             Label {
+                text: raw.environment
                 Layout.fillWidth: true
+                horizontalAlignment: Text.AlignHCenter
 
-                text: root.repositoryName
-                elide: Text.ElideRight
+                padding: 5
 
                 font.bold: true
             }
 
-            Label {
-                Layout.fillWidth: true
+            Card {
+                contentHeight: root.repositoryHeight
+                contentWidth: root.repositoryWidth
 
-                text: root.version
-                elide: Text.ElideMiddle
+                WorkflowRepositoryByEnv {
+                    id: workflowRepository
 
-                font.italic: true
+                    anchors.fill: parent
+
+                    titleVisible: false
+
+                    environment: raw.environment
+                    version: raw.version
+                    pullrequest: raw.pullrequest
+                    readonly: raw.readonly !== undefined ? raw.readonly : false
+                    repositoryName: root.repositoryName
+
+                    onCanPushChanged: {
+                        root.canPushChanged(index, canPush)
+                    }
+
+                    onEditClicked: {
+                        if (!dataVersionsAvailable.watching) { dataVersionsAvailable.watch() }
+                        dialogVersionsAvailable.currentVersion = raw.version
+                        dialogVersionsAvailable.itemEdited = source
+                        dialogVersionsAvailable.open()
+                    }
+
+                    Component.onCompleted: {
+                        if (index > 0) {
+                            repeaterWorkflowRepositoryByEnv.itemAt(index - 1).pipe = this
+                        }
+                    }
+                }
             }
-
-            Label {
-                Layout.alignment: Qt.AlignHCenter
-                visible: root.pullrequest !== null
-
-                bottomPadding: 5
-
-                text: `<a href="${triggerCd.pullrequest}">` + qsTr("pending request") + "</a>"
-
-                onLinkActivated: Qt.openUrlExternally(link)
-            }
-
-            Loading {
-                Layout.alignment: Qt.AlignHCenter
-
-                visible: root.processing
-                message: qsTr("Deploying...")
-            }
-
-            Item {
-                id: spacer
-                Layout.fillHeight: true
-            }
-
-            Button {
-                Layout.alignment: Qt.AlignRight
-
-                visible: !root.processing && root.canPush
-                enabled: root.pipe && !root.pipe.processing
-
-                text: root.pipe && root.pipe.isError() ? qsTr("Try to push again") : root.pipe && root.pipe.processing ? qsTr("Pushing...") : qsTr("Push")
-
-                highlighted: root.pipe && root.pipe.isError()
-
-                onClicked: root.push()
-            }
-
         }
     }
 }
+

@@ -11,9 +11,9 @@ Item {
     implicitWidth: contents.implicitWidth
 
     property alias repositoryName: dataEnvs.repositoryName
-    property alias environment: environments.currentText
+    property string environment: ""
 
-    RunnableEnvironments {
+    WatchContinousDeploymentEnvironmentsAvailable {
         id: dataEnvs
     }
 
@@ -34,9 +34,22 @@ Item {
             Layout.fillWidth: true
 
             visible: root.repositoryName !== ""
-            enabled: !dataEnvs.processing && dataEnvs.dataResponse && dataEnvs.dataResponse.length !== 0
+            enabled: !dataEnvs.processing
 
             model: dataEnvs.dataResponse
+
+            function itemToText(item) {
+                return item.environment
+            }
+
+            delegate: ItemDelegate {
+                width: parent ? parent.width : 0
+                text: environments.itemToText(raw)
+            }
+
+            displayText: currentIndex === -1 ? "" : itemToText(model.get(currentIndex).raw)
+
+            onCurrentIndexChanged: root.environment = currentIndex === -1 ? "" : itemToText(model.get(currentIndex).raw)
         }
     }
 }

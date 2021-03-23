@@ -56,7 +56,7 @@ Item {
                         onCompatible: {
                             if(root.repos.length === 0){
                                 for(const env of checkEnvs.envs) {
-                                    root.envs.push({ "name": env, "enabled": true })
+                                    root.envs.push({ "name": env.environment, "enabled": true })
                                 }
                                 root.envsChanged()
                             }

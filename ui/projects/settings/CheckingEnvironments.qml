@@ -18,7 +18,7 @@ Popup {
 
     padding: 10
 
-    RunnableEnvironments {
+    ContinousDeploymentEnvironmentsAvailable {
         id: dataEnvs
 
         onSuccess: {
@@ -32,7 +32,7 @@ Popup {
             }
 
             // regular case
-            const isEqualAtIndex = (currentValue, index) => currentValue === root.envsExpected[index].name
+            const isEqualAtIndex = (currentValue, index) => currentValue.environment === root.envsExpected[index].name
             if((root.envsExpected.length === dataResponse.length) && dataResponse.every(isEqualAtIndex)){
                 root.compatible()
                 root.close()

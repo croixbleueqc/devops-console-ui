@@ -27,5 +27,6 @@
         <file>icons/actions/dialog-cancel.svg</file>
         <file>icons/actions/dialog-ok.svg</file>
         <file>icons/actions/document-save.svg</file>
+        <file>icons/actions/editor.svg</file>
     </qresource>
 </RCC>

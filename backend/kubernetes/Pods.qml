@@ -5,7 +5,7 @@ WSWatcherModelAbstract {
     id: root
 
     com: WSComOne
-    autoSend: true
+    autoWatch: true
 
     property string repositoryName: ""
     property string environment: ""

@@ -17,11 +17,11 @@ Item {
     property alias nonPersistentSelection: suggestions.nonPersistentSelection
     signal nonPersistentSelected(var selection)
 
-    Backend.Repositories {
+    Backend.WatchRepositories {
         id: repos
     }
 
-    Suggestion {
+    SuggestionBeta {
         id: suggestions
 
         width: root.width
@@ -30,7 +30,7 @@ Item {
         maxVisibleSuggestions: 4
         showAdd: root.showAdd
 
-        json: repos.dataResponse
+        mainModel: repos.dataResponse
 
         loading: repos.processing
 

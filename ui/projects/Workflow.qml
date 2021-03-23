@@ -7,78 +7,10 @@ import "../../backend/projects"
 
 Item {
     id: root
-    property alias project: data.project
+    property var project: null
     property int preferredReposPerEnvWidth: 350
     property int preferredRepoHeight: 130
     property int preferredHeaderHeight: 48
-
-    property var repositoriesPerEnvironments: []
-
-    ProjectContinuousDeploymentConfig {
-        id: data
-
-        onSuccess: {
-            const repositoriesPerEnvironments = []
-            var dictEnvs={}
-
-            // create per environments structure
-            for(const projectEnv of project.environments) {
-                if(projectEnv.enabled) {
-                    const repositoriesPerEnvironment = {
-                        environment: projectEnv.name,
-                        repositories: []
-                    }
-
-                    dictEnvs[projectEnv.name] = repositoriesPerEnvironment
-                    repositoriesPerEnvironments.push(repositoriesPerEnvironment)
-                }
-            }
-
-            // fill each environment by adding repositories details
-            for(let i=0;i<root.project.repositories.length;i++) {
-                const dataResponse = dataResponseAt(i)
-                const repositoryName = root.project.repositories[i]
-
-                for(const dataEnv of dataResponse.environments) {
-                    const envRef = dictEnvs[dataEnv.environment]
-                    if(envRef !== undefined) {
-                        envRef.repositories.push(
-                                    {
-                                        name: repositoryName,
-                                        version: dataEnv.version,
-                                        pullrequest: dataEnv.pullrequest,
-                                        readonly: dataEnv.readonly !== undefined ? dataEnv.readonly : false
-                                    })
-                    }
-                }
-            }
-
-            root.repositoriesPerEnvironments = repositoriesPerEnvironments
-        }
-
-        onErrorChanged: {
-            if(isError()) {
-                root.repositoriesPerEnvironments = []
-            }
-        }
-    }
-
-    Loading {
-        anchors.centerIn: parent
-
-        visible: data.processing
-
-        inline: false
-        message: qsTr("Collecting continous deployment configurations for %1").arg(data.project !== null ? data.project.name : "")
-    }
-
-    Label {
-        anchors.centerIn: parent
-
-        visible: data.isError()
-
-        text: qsTr("An error occured !")
-    }
 
     Flickable {
         id: headers
@@ -87,8 +19,6 @@ Item {
         contentHeight: headersContents.implicitHeight
         contentWidth: headersContents.implicitWidth
         width: parent.width
-
-        visible: !data.processing
 
         interactive: false
         contentX: repositories.contentX
@@ -101,18 +31,23 @@ Item {
             spacing: 10
 
             Repeater {
-                model: root.repositoriesPerEnvironments
+                id: repeaterHeader
+                model: root.project !== null ? root.project.environments.filter(env => env.enabled === true) : null
 
-                Card {
+                Pane {
                     contentWidth: root.preferredReposPerEnvWidth
                     contentHeight: root.preferredHeaderHeight
+                    padding: 0
+
+                    property int environmentIndex: index
+                    property int nbCanPush: 0
 
                     RowLayout {
                         anchors.fill: parent
 
                         Label {
                             id: content
-                            text: modelData.environment
+                            text: modelData.name
                             Layout.fillWidth: true
                             horizontalAlignment: Text.AlignHCenter
 
@@ -124,14 +59,15 @@ Item {
                         Button {
                             Layout.alignment: Qt.AlignRight
 
-                            visible: {
-                                const workflowRepositories = repeatWorkflowRepostitories.itemAt(index)
-                                return workflowRepositories !== null && workflowRepositories.canPush
-                            }
+                            visible: nbCanPush > 0
 
                             text: qsTr("Push for all")
 
-                            onClicked: repeatWorkflowRepostitories.itemAt(index).push()
+                            onClicked: {
+                                for(let i=0; i<repeatWorkflowRepository.count; i++){
+                                    repeatWorkflowRepository.itemAt(i).push(environmentIndex)
+                                }
+                            }
                         }
                     }
                 }
@@ -146,8 +82,6 @@ Item {
         anchors.bottom: parent.bottom
         width: parent.width
 
-        visible: !data.processing
-
         clip: true
 
         contentHeight: repositoriesContents.implicitHeight
@@ -158,7 +92,7 @@ Item {
 
         boundsBehavior: Flickable.StopAtBounds
 
-        RowLayout {
+        ColumnLayout {
             id: repositoriesContents
 
             x: width < repositories.width ? (repositories.width - width)/2 : 0
@@ -166,26 +100,36 @@ Item {
             spacing: 10
 
             Repeater {
-                id: repeatWorkflowRepostitories
-                model: root.repositoriesPerEnvironments
+                id: repeatWorkflowRepository
+                model: root.project !== null ? root.project.repositories : null
 
                 Card {
-                    property alias pipe: workflowRepository.pipe
-                    property alias canPush: workflowRepository.canPush
                     property var push: workflowRepository.push
+                    property int repositoryIndex: index
 
-                    WorkflowRepositories {
+                    WorkflowRepository {
                         id: workflowRepository
+
                         width: root.preferredReposPerEnvWidth
                         repositoryHeight: root.preferredRepoHeight
+                        repositoryWidth: root.preferredReposPerEnvWidth
 
-                        repositories: modelData.repositories
-                        environment: modelData.environment
+                        repositoryName: modelData
+                        filter_environments: {
+                            if (root.project === null) { return null }
 
-                        Component.onCompleted: {
-                            if(index > 0) {
-                                repeatWorkflowRepostitories.itemAt(index - 1).pipe = this
+                            const filter = []
+                            for(var item of root.project.environments) {
+                                if(item.enabled) { filter.push(item.name) }
                             }
+
+                            return filter.length === root.project.environments.length ? null : filter
+                        }
+
+                        onCanPushChanged: {
+                            const headerItem = repeaterHeader.itemAt(index)
+                            if(headerItem === null) { return }
+                            headerItem.nbCanPush += value ? +1 : -1
                         }
                     }
                 }

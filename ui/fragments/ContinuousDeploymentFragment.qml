@@ -1,23 +1,26 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
 import "../sccs"
+import "../projects"
 
 Item {
+    id: root
     property alias repositoryName: cd.repositoryName
 
     ScrollView {
         anchors.fill: parent
         padding: 10
 
-        contentHeight: cd.height
+        contentHeight: cd.implicitHeight
 
         clip: true
 
-        RepoContinuousDeployment {
+        WorkflowRepository {
             id: cd
 
-            width: Math.min(500, parent.width)
-            x: (parent.width - width) / 2
+            width: root.width
+            envPerRow: root.width / repositoryWidth
+            mode: "independent"
         }
     }
 }

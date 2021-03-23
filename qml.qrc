@@ -2,7 +2,6 @@
     <qresource prefix="/">
         <file>ui/sccs/Search.qml</file>
         <file>backend/sccs/Repositories.qml</file>
-        <file>backend/sccs/RepoContinuousDeploymentConfig.qml</file>
         <file>backend/core/NetworkGet.qml</file>
         <file>backend/core/NetworkPut.qml</file>
         <file>backend/sccs/RepoTriggerContinuousDeployment.qml</file>
@@ -21,8 +20,6 @@
         <file>backend/core/Store.qml</file>
         <file>backend/core/StoreLoader.qml</file>
         <file>backend/core/StoreUse.qml</file>
-        <file>ui/sccs/RepoContinuousDeployment.qml</file>
-        <file>ui/sccs/EnvContinuousDeployment.qml</file>
         <file>ui/common/Card.qml</file>
         <file>ui/pages/ParametersPage.qml</file>
         <file>ui/layouts/SimpleLayout.qml</file>
@@ -49,7 +46,6 @@
         <file>ui/projects/Search.qml</file>
         <file>backend/projects/ProjectSettings.qml</file>
         <file>backend/kubernetes/Pods.qml</file>
-        <file>backend/core/WSWatcherAbstract.qml</file>
         <file>ui/pages/SccsPage.qml</file>
         <file>backend/kubernetes/DeletePod.qml</file>
         <file>ui/kubernetes/metadata/MetadataName.qml</file>
@@ -61,16 +57,21 @@
         <file>ui/fragments/PodsFragment.qml</file>
         <file>ui/core/HeaderPlaceholderLabel.qml</file>
         <file>ui/sccs/RepoResume.qml</file>
-        <file>backend/sccs/RunnableEnvironments.qml</file>
+        <file>backend/sccs/WatchContinousDeploymentEnvironmentsAvailable.qml</file>
         <file>ui/projects/settings/ProjectsSettings.qml</file>
         <file>ui/projects/settings/Project.qml</file>
         <file>ui/common/Loading.qml</file>
         <file>ui/common/Settings.qml</file>
         <file>ui/projects/settings/CheckingEnvironments.qml</file>
-        <file>ui/projects/Workflow.qml</file>
-        <file>ui/projects/WorkflowRepositories.qml</file>
-        <file>ui/projects/WorkflowRepository.qml</file>
+        <file>ui/projects/WorkflowRepositoryByEnv.qml</file>
         <file>backend/projects/ProjectContinuousDeploymentConfig.qml</file>
         <file>backend/core/WSWatcherModelAbstract.qml</file>
+        <file>backend/sccs/WatchContinousDeploymentConfig.qml</file>
+        <file>ui/projects/WorkflowRepository.qml</file>
+        <file>ui/projects/Workflow.qml</file>
+        <file>backend/sccs/WatchContinuousDeploymentVersionsAvailable.qml</file>
+        <file>backend/sccs/ContinousDeploymentEnvironmentsAvailable.qml</file>
+        <file>ui/common/SuggestionBeta.qml</file>
+        <file>backend/sccs/WatchRepositories.qml</file>
     </qresource>
 </RCC>

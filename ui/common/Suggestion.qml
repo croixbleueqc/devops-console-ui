@@ -81,7 +81,7 @@ Item {
     onSelectedChanged: {
         search.inhibitOpenPopupOnTextChanged = true
         if (root.selected !== null) {
-            search.text = json !== null ? root.suggestionToText(root.selected) : root.selected
+            search.text = array !== null ? root.selected : root.suggestionToText(root.selected)
             root.selectedText = search.text
         } else {
             search.text = ""
@@ -138,7 +138,7 @@ Item {
                 break
             case Qt.Key_Return:
                 if (suggestions.currentIndex !== -1) {
-                    const selection = root.json !== null ? proxyModel.get(suggestions.currentIndex) : (proxyModel.get(suggestions.currentIndex)).name
+                    const selection = root.array !== null ? proxyModel.get(suggestions.currentIndex).name : proxyModel.get(suggestions.currentIndex)
 
                     if(root.nonPersistentSelection) {
                         root.nonPersistentSelected(selection)
@@ -223,7 +223,7 @@ Item {
                     highlighted: suggestions.currentIndex === index
 
                     onClicked: {
-                        const selection = root.json !== null ? proxyModel.get(index) : (proxyModel.get(index)).name
+                        const selection = root.array !== null ? proxyModel.get(index).name : proxyModel.get(index)
 
                         if(root.nonPersistentSelection) {
                             root.nonPersistentSelected(selection)

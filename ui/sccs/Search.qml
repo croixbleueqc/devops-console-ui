@@ -21,7 +21,7 @@ Item {
         id: repos
     }
 
-    SuggestionBeta {
+    Suggestion {
         id: suggestions
 
         width: root.width

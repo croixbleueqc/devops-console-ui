@@ -71,7 +71,6 @@
         <file>ui/projects/Workflow.qml</file>
         <file>backend/sccs/WatchContinuousDeploymentVersionsAvailable.qml</file>
         <file>backend/sccs/ContinousDeploymentEnvironmentsAvailable.qml</file>
-        <file>ui/common/SuggestionBeta.qml</file>
         <file>backend/sccs/WatchRepositories.qml</file>
     </qresource>
 </RCC>

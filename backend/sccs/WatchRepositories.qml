@@ -5,6 +5,8 @@ WSWatcherModelAbstract {
     id: root
     com: WSComOne
 
+    featureRaw: false
+
     request: "sccs:watch:/repositories"
 
     dataRequest: {

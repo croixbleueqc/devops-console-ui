@@ -7,6 +7,7 @@ Item {
     property alias dataRequest: watcher.dataRequest
     property alias com: watcher.com
     property bool autoWatch: false
+    property bool featureRaw: true
 
     readonly property alias processing: watcher.processing
     readonly property alias error: watcher.error
@@ -90,12 +91,12 @@ Item {
                 root.info(key, value)
                 break
             case "ADDED":
-                root.dataResponse.append({raw: value, key: key})
+                root.dataResponse.append(root.featureRaw ? {raw: value, key: key} : value)
                 root.dataResponseKeys.push(key)
                 root.added(key, value)
                 break
             case "MODIFIED":
-                root.dataResponse.set(index, {raw: value, key: key})
+                root.dataResponse.set(index, root.featureRaw ? {raw: value, key: key} : value)
                 root.modified(index, key, value)
                 break
             case "DELETED":

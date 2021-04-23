@@ -16,7 +16,8 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
     app.setOrganizationName(QStringLiteral("Pygoscelis"));
     app.setOrganizationDomain(QStringLiteral("pygoscelis.org"));
-    app.setApplicationName(QStringLiteral("DevOps Console"));
+    app.setApplicationName(QStringLiteral("DevOps"));
+    app.setApplicationDisplayName(QStringLiteral("DevOps Console"));
 
 //    QTranslator translator;
 //    translator.load("DevOps_fr_CA");

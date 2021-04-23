@@ -25,7 +25,7 @@ SimpleLayout {
         anchors.centerIn: parent
 
         Text {
-            text: qsTr("Welcome to the DevOps Console")
+            text: qsTr("Welcome to %1").arg(Qt.application.displayName)
         }
 
         Button {

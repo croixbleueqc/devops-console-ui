@@ -18,8 +18,8 @@ Item {
     property alias showApplicationMenu: applicationMenu.visible
     property alias showUser: user.visible
     property alias isCanGoBack: back.visible
-    property string mainTitle: qsTr("DevOps Console")
-    property string secondTitle: ""
+    property string mainTitle: Qt.application.displayName
+    property string secondTitle:""
 
     readonly property WSCom com: WSComOne
 

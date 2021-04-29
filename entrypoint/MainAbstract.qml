@@ -3,6 +3,7 @@ import QtQuick.Window 2.12
 import QtQuick.Layouts 1.15
 import QtQuick.Controls 2.12
 
+
 import "../ui/pages" as Pages
 import "../backend/core"
 
@@ -11,8 +12,7 @@ Window {
     visible: true
     width: 640
     height: 480
-    title: qsTr("DevOps")
-
+    title: Qt.application.name;
     property Component first: null
 
     StackView {

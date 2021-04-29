@@ -29,7 +29,7 @@ Drawer {
                     Layout.fillWidth: true
                     leftPadding: 10
 
-                    text: qsTr("DevOps Console")
+                    text: Qt.application.displayName
                 }
 
                 ToolButton {

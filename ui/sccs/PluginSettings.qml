@@ -26,6 +26,7 @@ Settings {
             placeholderText: qsTr("Session")
             text: Store.sccs_plugin_settings.session
 
+            selectByMouse: true
             Layout.fillWidth: true
         }
     }
@@ -35,4 +36,5 @@ Settings {
                     plugin.text,
                     session.text)
     }
+
 }

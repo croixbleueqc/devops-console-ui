@@ -93,7 +93,10 @@ Item {
 
         wrapMode: Text.Wrap
 
+        selectByMouse :true
+
         readOnly: true
+
         text: data_addrepo.isError() ? data_addrepo.error : data_addrepo.dataResponse
     }
 }

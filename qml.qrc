@@ -72,5 +72,6 @@
         <file>backend/sccs/WatchContinuousDeploymentVersionsAvailable.qml</file>
         <file>backend/sccs/ContinousDeploymentEnvironmentsAvailable.qml</file>
         <file>backend/sccs/WatchRepositories.qml</file>
+        <file>backend/OAuth2/GetOAuth2Config.qml</file>
     </qresource>
 </RCC>

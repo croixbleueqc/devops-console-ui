@@ -31,7 +31,9 @@ WebSocket {
             console.log("socket closed")
         } else if (status == WebSocket.Open) {
             console.log("socket open")
-        } else {
+        } else if (status == WebSocket.Connecting) {
+            console.log("connecting socket")
+        }else {
             console.log("socket status undefined: " + status)
         }
     }

@@ -4,6 +4,7 @@ CONFIG += c++11
 
 emscripten {
     message("Building for WebAssembly")
+    CONFIG += wasmOauth2
 } else {
     message("Building for Generic")
     CONFIG += oauth2
@@ -18,6 +19,31 @@ oauth2 {
     HEADERS += \
             src/Auth.h
     DEFINES += OAUTH2
+}
+
+wasmOauth2 {
+    SOURCES += \
+            src/WASMAuth.cpp
+    HEADERS += \
+            src/WASMAuth.h
+
+    DEFINES += WASM_OAUTH2
+
+
+    QMAKE_LFLAGS += -s ASYNCIFY=1
+    QMAKE_LFLAGS += -s 'ASYNCIFY_IMPORTS=["getUser"]'
+    QMAKE_LFLAGS += -s EXPORTED_FUNCTIONS="['_main','_get_config','_set_token']"
+    QMAKE_LFLAGS += -g2
+    QMAKE_LFLAGS += -s SAFE_HEAP=1
+    QMAKE_LFLAGS += -s ERROR_ON_UNDEFINED_SYMBOLS=0
+
+    QMAKE_CXXFLAGS += --js-library oidc-client.js
+    QMAKE_CXXFLAGS += -s ASYNCIFY=1
+    QMAKE_CXXFLAGS += -s 'ASYNCIFY_IMPORTS=["getUser"]'
+    QMAKE_CXXFLAGS += -s EXPORTED_FUNCTIONS="['_main','_get_config','_set_token']"
+    QMAKE_CXXFLAGS += -g2
+    QMAKE_CXXFLAGS += -s SAFE_HEAP=1
+    QMAKE_CXXFLAGS += -s ERROR_ON_UNDEFINED_SYMBOLS=0
 }
 
 # external projects
@@ -40,6 +66,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 # DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+        src/OAuth2Config.cpp \
         src/asyncsettings.cpp \
         src/main.cpp
 
@@ -61,4 +88,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+    src/OAuth2Config.h \
     src/asyncsettings.h
+

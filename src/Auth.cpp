@@ -4,9 +4,6 @@
 #include <QtGui>
 #include <QDebug>
 
-// TODO: provides external configuration for OAuth2
-
-
 Auth::Auth(QObject *parent)
     : QObject(parent)
 {
@@ -48,8 +45,6 @@ Auth::Auth(QScopedPointer<OAuth2Config> &_config_ptr, QObject *parent):
     Auth(parent)
 {
    config_ptr = &_config_ptr;
-
-
 }
 
 bool Auth::isPermanent() const {

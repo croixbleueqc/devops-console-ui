@@ -2,9 +2,6 @@
 #include <cstdio>
 #include <string>
 
-
-
-
 OAuth2Config::OAuth2Config(QObject *parent):
     QObject(parent)
 {

@@ -1,5 +1,4 @@
 FROM croixbleueqc/qt5-wasm-builder:latest AS builder
-#FROM qt5-wasm-builder-cbq:latest AS builder
 
 ARG BACKEND="ws://localhost:5000/wscom1"
 

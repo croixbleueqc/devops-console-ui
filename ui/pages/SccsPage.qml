@@ -43,8 +43,6 @@ CoreLayout {
 
                 text: qsTr("Continuous Deployment")
 
-                enabled: root.repositoryName !== "" && root.environment !== ""
-
                 onClicked: root.openPage(continousDeploymentComponent)
             }
 

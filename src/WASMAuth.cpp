@@ -1,14 +1,11 @@
 #include "WASMAuth.h"
-#include<QDebug>
-#include <QJsonDocument>
-#include <QJsonObject>
+#include <QReadLocker>
+#include <QWriteLocker>
+#include <QReadWriteLock>
 #include <emscripten.h>
 #include <emscripten/bind.h>
 #include <string>
-#include <ctime>
-
-
-
+#include <cstdlib>
 
 
 
@@ -17,10 +14,25 @@ using namespace emscripten;
 char * json_config_ptr = nullptr;
 QString token= "";
 
-
+void make_json(std::string currUrl)
+{
+        QReadLocker gard(&OAuth2Config::get().getLock());
+        std::string json =
+                std::string("{\"authority\": \"")+OAuth2Config::get().getIssuer().toString().toStdString()+"\","+
+                        "\"client_id\": \""+OAuth2Config::get().getClientID().toStdString() +"\","+
+                        "\"silent_redirect_uri\":\""+currUrl+"/silent-redirect.html\","+
+                        "\"popup_redirect_uri\": \""+currUrl+"/popup-signin.html\","+
+                        "\"response_type\": \"code\","+
+                        "\"scope\": \""+OAuth2Config::get().getKScope().toStdString()+"\"}";
+        if(json_config_ptr!= nullptr){
+            free(json_config_ptr);
+        }
+        json_config_ptr = reinterpret_cast<char*>(std::malloc( json.size()+1));
+        memmove(json_config_ptr,json.c_str(),json.size()+1);
+}
 
 extern "C"{
-   EMSCRIPTEN_KEEPALIVE
+EMSCRIPTEN_KEEPALIVE
    char * get_config()
     {
         return json_config_ptr;
@@ -32,12 +44,6 @@ EMSCRIPTEN_KEEPALIVE
         token = QString(str);
     };
 }
-
-
-
-
-
-
 
 EM_JS(int , getUser, (), {
           //There is probably a better way to do it ...
@@ -76,30 +82,7 @@ EM_JS(int , getUser, (), {
           });
       });
 
-
-
-
-
-WASMAuth::WASMAuth(QObject *parent) : QObject(parent)
-{
-
-
-}
-
-
-
-WASMAuth::WASMAuth(const QString &clientId, QObject *parent): QObject(parent)
-{
-
-}
-
-WASMAuth::WASMAuth(QScopedPointer<OAuth2Config> &_config_ptr,QObject *parent):
-    WASMAuth(parent)
-{
-   config_ptr = &_config_ptr;
-
-}
-
+WASMAuth::WASMAuth(QObject *parent) : AuthAbstract(parent),jsonLock(){}
 
 bool WASMAuth::isPermanent() const
 {
@@ -113,7 +96,6 @@ void WASMAuth::setPermanent(bool value)
 
 bool WASMAuth::isAuthenticated() const
 {
-    qInfo("isAuthenticated");
     return true;
 }
 
@@ -124,45 +106,24 @@ WASMAuth::~WASMAuth()
 
 void WASMAuth::updateConfig()
 {
-    auto config = config_ptr->data();
-    if(json_config_ptr != nullptr)
-    {
-        free(json_config_ptr);
-    }
+    std::lock_guard<std::mutex> lock(jsonLock);
     std::string currUrl  =val::global("location")["origin"].as<std::string>();
-    config->get_Json(json_config_ptr,currUrl);
+    make_json(currUrl);
 }
-
-
-
-
 
 void WASMAuth::grant()
 {
-
-
-   expiration =getUser();
+   std::lock_guard<std::mutex> lock(jsonLock);
+   QReadLocker locker (&OAuth2Config::get().getLock());
+   expiration = getUser();
    if(expiration != 0)
    {
-   emit this->authenticatedChanged();
-   emit this->emailChanged();
+       emit this->authenticatedChanged();
+       emit this->emailChanged();
    }
 }
 
 QString WASMAuth::getEmail()
 {
-    qInfo("getEmail");
-    if(token.isEmpty()) {
-        return "";
-    }
-
-    auto parts = token.split(".");
-    auto userdata = QByteArray::fromBase64(parts[1].toUtf8());
-
-    qInfo()<< QByteArray::fromBase64(parts[0].toUtf8());
-    const auto doc = QJsonDocument::fromJson(userdata);
-    qInfo()<<doc;
-    const auto email = doc.object().value("email").toString();
-    qInfo()<< parts[2];
-    return email;
+  return getEmailFromToken(token);
 }

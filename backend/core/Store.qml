@@ -74,14 +74,22 @@ Item {
         sourceAlt: "../sccs/Repositories.qml"
         parametersAlt: {"autoSend": false}
     }
+ // POC: Dynamic Loader for OAuth2
+    StoreLoader {
+        id: auth2
 
+        sourceAlt: "../OAuth2/OAuth2Config.qml"
+        parametersAlt: {"autoSend": false}
+    }
     // POC: register/unregister functions to use Dynamic Loader feature
     function register(module) {
         console.log("register " + module)
 
         if (module === "repos") {
             return repos.use()
-        } else {
+        } else if(module ==="OAuth2") {
+            return auth2.use()
+        }else{
             console.log(module + " not available !")
         }
     }
@@ -91,7 +99,9 @@ Item {
 
         if (module === "repos") {
             repos.unuse()
-        } else {
+        } else if(module ==="OAuth2"){
+            return auth2.use()
+        }else{
             console.log(module + " not available")
         }
     }

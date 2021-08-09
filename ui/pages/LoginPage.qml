@@ -28,6 +28,7 @@ SimpleLayout {
 
         Text {
             text: qsTr("Welcome to %1").arg(Qt.application.displayName)
+
         }
 
         Button {
@@ -35,14 +36,16 @@ SimpleLayout {
 
             text: qsTr("SSO")
 
+            onPressed:
+            {
+             Store.register("OAuth2")
+            }
+
             onClicked:
             {
-
-                var conf = GetOAuth2Config
-                console.log(conf.dataResponse)
-                Auth.updateConfig()
                 Auth.grant()
             }
-        }
+        }    
     }
+
 }

@@ -1,14 +1,13 @@
 #include "Auth.h"
+#include "OAuth2Config.h"
+
 #include <QtNetwork>
 #include <QtNetworkAuth>
 #include <QtGui>
 #include <QDebug>
 
-// TODO: provides external configuration for OAuth2
-
-
 Auth::Auth(QObject *parent)
-    : QObject(parent)
+    : AuthAbstract(parent)
 {
     auto replyHandler = new QOAuthHttpServerReplyHandler(3000, this);
     oauth2.setReplyHandler(replyHandler);
@@ -38,20 +37,6 @@ Auth::Auth(QObject *parent)
             &QDesktopServices::openUrl);
 }
 
-Auth::Auth(const QString &clientId, QObject *parent)
-    : Auth(parent)
-{
-    oauth2.setClientIdentifier(clientId);
-}
-
-Auth::Auth(QScopedPointer<OAuth2Config> &_config_ptr, QObject *parent):
-    Auth(parent)
-{
-   config_ptr = &_config_ptr;
-
-
-}
-
 bool Auth::isPermanent() const {
     return permanent;
 }
@@ -61,6 +46,7 @@ void Auth::setPermanent(bool value) {
 }
 
 void Auth::grant() {
+
     oauth2.grant();
 }
 
@@ -70,24 +56,13 @@ bool Auth::isAuthenticated() const {
 
 void Auth::updateConfig()
 {
-    auto config = config_ptr->data();
-    oauth2.setAuthorizationUrl(config->get_kAuth());
-    oauth2.setAccessTokenUrl(config->get_kAccessToken());
-    oauth2.setScope(config->get_kScope());
+    QReadLocker gard (&OAuth2Config::get().getLock());
+    oauth2.setAuthorizationUrl(OAuth2Config::get().getKAuth());
+    oauth2.setAccessTokenUrl(OAuth2Config::get().getKAccessToken());
+    oauth2.setScope(OAuth2Config::get().getKScope());
+    oauth2.setClientIdentifier(OAuth2Config::get().getClientID());
 }
 
 QString Auth::getEmail() {
-    if(oauth2.token().isEmpty()) {
-        return "";
-    }
-
-    auto parts = oauth2.token().split(".");
-    auto userdata = QByteArray::fromBase64(parts[1].toUtf8());
-
-    qInfo()<< QByteArray::fromBase64(parts[0].toUtf8());
-    const auto doc = QJsonDocument::fromJson(userdata);
-    qInfo()<<doc;
-    const auto email = doc.object().value("email").toString();
-    qInfo()<< parts[2];
-    return email;
+    return getEmailFromToken(oauth2.token());
 }

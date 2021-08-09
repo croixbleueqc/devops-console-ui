@@ -4,6 +4,3 @@
 [submodule "external/android_openssl"]
 	path = external/android_openssl
 	url = https://github.com/KDAB/android_openssl
-[submodule "external/msgpack"]
-	path = external/msgpack
-	url = https://github.com/msgpack/msgpack-c

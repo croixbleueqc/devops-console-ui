@@ -37,18 +37,6 @@ Auth::Auth(QObject *parent)
             &QDesktopServices::openUrl);
 }
 
-Auth::Auth(const QString &clientId, QObject *parent)
-    : Auth(parent)
-{
-    oauth2.setClientIdentifier(clientId);
-}
-
-Auth::Auth(QScopedPointer<OAuth2Config> &_config_ptr, QObject *parent):
-    Auth(parent)
-{
-   config_ptr = &_config_ptr;
-}
-
 bool Auth::isPermanent() const {
     return permanent;
 }

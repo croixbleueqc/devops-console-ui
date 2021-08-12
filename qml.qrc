@@ -24,7 +24,7 @@
         <file>ui/pages/ParametersPage.qml</file>
         <file>ui/layouts/SimpleLayout.qml</file>
         <file>ui/pages/LoginPage.qml</file>
-        <file>entrypoint/GuessEntry.qml</file>
+        <file>entrypoint/GuestEntry.qml</file>
         <file>entrypoint/MainAbstract.qml</file>
         <file>ui/pages/WelcomePage.qml</file>
         <file>entrypoint/AuthEntry.qml</file>

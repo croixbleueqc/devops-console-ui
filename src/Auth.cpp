@@ -4,7 +4,6 @@
 #include <QtNetwork>
 #include <QtNetworkAuth>
 #include <QtGui>
-#include <QDebug>
 
 Auth::Auth(QObject *parent)
     : AuthAbstract(parent)
@@ -46,7 +45,6 @@ void Auth::setPermanent(bool value) {
 }
 
 void Auth::grant() {
-
     oauth2.grant();
 }
 

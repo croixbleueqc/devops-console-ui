@@ -29,7 +29,6 @@ wasmOauth2 {
 
     DEFINES += WASM_OAUTH2
 
-
     QMAKE_LFLAGS += -s ASYNCIFY=1
     QMAKE_LFLAGS += -s 'ASYNCIFY_IMPORTS=["getUser"]'
     QMAKE_LFLAGS += -s EXPORTED_FUNCTIONS="['_main','_get_config','_set_token']"
@@ -92,4 +91,3 @@ HEADERS += \
     src/AuthAbstract.h \
     src/OAuth2Config.h \
     src/asyncsettings.h
-

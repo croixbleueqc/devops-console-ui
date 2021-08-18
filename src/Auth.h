@@ -5,7 +5,6 @@
 
 #include <QtCore>
 #include <QOAuth2AuthorizationCodeFlow>
-#include <QScopedPointer>
 
 class Auth: public AuthAbstract
 {

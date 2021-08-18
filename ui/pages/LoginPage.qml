@@ -28,7 +28,6 @@ SimpleLayout {
 
         Text {
             text: qsTr("Welcome to %1").arg(Qt.application.displayName)
-
         }
 
         Button {

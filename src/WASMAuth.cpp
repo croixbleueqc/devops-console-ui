@@ -1,13 +1,14 @@
 #include "WASMAuth.h"
+
 #include <QReadLocker>
 #include <QWriteLocker>
 #include <QReadWriteLock>
+
 #include <emscripten.h>
 #include <emscripten/bind.h>
+
 #include <string>
 #include <cstdlib>
-
-
 
 using namespace emscripten;
 

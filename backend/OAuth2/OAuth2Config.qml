@@ -21,9 +21,7 @@ WSNetworkAbstract {
         }
         AuthConfig.unlock()
     }
-    onDataRequestChanged:{
-        send()
-    }
+    onDataRequestChanged: send()
 
     onDataResponseChanged: {
         AuthConfig.lockForWrite()

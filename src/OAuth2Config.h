@@ -7,9 +7,6 @@
 #include <QObject>
 #include <QReadWriteLock>
 
-#include <qqml.h>
-
-
 class OAuth2Config :public QObject
 {
     Q_OBJECT
@@ -65,4 +62,4 @@ private:
     static OAuth2Config singleton;
 };
 
-#endif // OIDCCONFIG_H
+#endif // OAUTH2CONFIG_H

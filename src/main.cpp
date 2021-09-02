@@ -5,6 +5,12 @@
 
 #ifdef OAUTH2
 #include "Auth.h"
+#include "OAuth2Config.h"
+#endif
+
+#ifdef WASM_OAUTH2
+#include "WASMAuth.h"
+#include "OAuth2Config.h"
 #endif
 
 #include "asyncsettings.h"
@@ -26,20 +32,22 @@ int main(int argc, char *argv[])
     QQmlApplicationEngine engine;
 
 #ifdef OAUTH2
-//    TODO: remove hardcoded client id for OAuth2 authentication
-    QScopedPointer<Auth> auth(new Auth("devops-console"));
+    qmlRegisterSingletonInstance("QtPygo.authConfig", 1, 0, "AuthConfig", &OAuth2Config::get());
+    QScopedPointer<Auth> auth(new Auth());
     qmlRegisterSingletonInstance("QtPygo.auth", 1, 0, "Auth", auth.get());
 #endif
 
-    qmlRegisterType<AsyncSettings>("QtPygo.storage", 1, 0, "Settings");
-
-#ifdef Q_OS_WASM
-    const QUrl url(QStringLiteral("qrc:/entrypoint/WebEntry.qml"));
-#else
-//    TODO: Switch back to GenericEntry once we will provide external OAuth2 configuration
-//    const QUrl url(QStringLiteral("qrc:/entrypoint/GenericEntry.qml"));
-    const QUrl url(QStringLiteral("qrc:/entrypoint/WebEntry.qml"));
+#ifdef WASM_OAUTH2
+    qmlRegisterSingletonInstance("QtPygo.authConfig", 1, 0, "AuthConfig", &OAuth2Config::get());
+    QScopedPointer<WASMAuth> auth(new WASMAuth());
+    qmlRegisterSingletonInstance("QtPygo.auth", 1, 0, "Auth", auth.get());
 #endif
+
+qmlRegisterType<AsyncSettings>("QtPygo.storage", 1, 0, "Settings");
+
+//Todo: provide guest entry from server.
+
+const QUrl url(QStringLiteral("qrc:/entrypoint/AuthEntry.qml"));
 
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
                      &app, [url](QObject *obj, const QUrl &objUrl) {
@@ -47,6 +55,5 @@ int main(int argc, char *argv[])
             QCoreApplication::exit(-1);
     }, Qt::QueuedConnection);
     engine.load(url);
-
     return app.exec();
 }

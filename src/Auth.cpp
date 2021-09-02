@@ -1,21 +1,15 @@
 #include "Auth.h"
+#include "OAuth2Config.h"
+
 #include <QtNetwork>
 #include <QtNetworkAuth>
 #include <QtGui>
 
-// TODO: provides external configuration for OAuth2
-const QUrl kAuth{"https://.../auth/realms/master/protocol/openid-connect/auth"};
-const QUrl kAccessToken{"https://.../auth/realms/master/protocol/openid-connect/token"};
-const QString kScope{"profile email"};
-
 Auth::Auth(QObject *parent)
-    : QObject(parent)
+    : AuthAbstract(parent)
 {
     auto replyHandler = new QOAuthHttpServerReplyHandler(3000, this);
     oauth2.setReplyHandler(replyHandler);
-    oauth2.setAuthorizationUrl(kAuth);
-    oauth2.setAccessTokenUrl(kAccessToken);
-    oauth2.setScope(kScope);
 
     connect(&oauth2, &QOAuth2AuthorizationCodeFlow::statusChanged, [=](
             QAbstractOAuth::Status status) {
@@ -42,12 +36,6 @@ Auth::Auth(QObject *parent)
             &QDesktopServices::openUrl);
 }
 
-Auth::Auth(const QString &clientId, QObject *parent)
-    : Auth(parent)
-{
-    oauth2.setClientIdentifier(clientId);
-}
-
 bool Auth::isPermanent() const {
     return permanent;
 }
@@ -64,16 +52,15 @@ bool Auth::isAuthenticated() const {
     return authenticated;
 }
 
+void Auth::updateConfig()
+{
+    QReadLocker gard (&OAuth2Config::get().getLock());
+    oauth2.setAuthorizationUrl(OAuth2Config::get().getKAuth());
+    oauth2.setAccessTokenUrl(OAuth2Config::get().getKAccessToken());
+    oauth2.setScope(OAuth2Config::get().getKScope());
+    oauth2.setClientIdentifier(OAuth2Config::get().getClientID());
+}
+
 QString Auth::getEmail() {
-    if(oauth2.token().isEmpty()) {
-        return "";
-    }
-
-    auto parts = oauth2.token().split(".");
-    auto userdata = QByteArray::fromBase64(parts[1].toUtf8());
-
-    const auto doc = QJsonDocument::fromJson(userdata);
-    const auto email = doc.object().value("email").toString();
-
-    return email;
+    return getEmailFromToken(oauth2.token());
 }

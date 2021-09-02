@@ -24,10 +24,10 @@
         <file>ui/pages/ParametersPage.qml</file>
         <file>ui/layouts/SimpleLayout.qml</file>
         <file>ui/pages/LoginPage.qml</file>
-        <file>entrypoint/WebEntry.qml</file>
+        <file>entrypoint/GuestEntry.qml</file>
         <file>entrypoint/MainAbstract.qml</file>
         <file>ui/pages/WelcomePage.qml</file>
-        <file>entrypoint/GenericEntry.qml</file>
+        <file>entrypoint/AuthEntry.qml</file>
         <file>backend/sccs/PluginSettings.qml</file>
         <file>ui/sccs/PluginSettings.qml</file>
         <file>ui/pages/ContinuousDeploymentByProjectPage.qml</file>
@@ -72,5 +72,6 @@
         <file>backend/sccs/WatchContinuousDeploymentVersionsAvailable.qml</file>
         <file>backend/sccs/ContinousDeploymentEnvironmentsAvailable.qml</file>
         <file>backend/sccs/WatchRepositories.qml</file>
+        <file>backend/OAuth2/OAuth2Config.qml</file>
     </qresource>
 </RCC>

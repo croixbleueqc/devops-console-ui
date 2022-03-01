@@ -9,6 +9,8 @@
 
 #include <string>
 #include <cstdlib>
+#include <QDebug>
+#include <stdio.h>
 
 using namespace emscripten;
 
@@ -46,10 +48,9 @@ EMSCRIPTEN_KEEPALIVE
     };
 }
 
-EM_JS(int , getUser, (), {
+EM_JS(int, getUser, (), {
           //There is probably a better way to do it ...
-          return Asyncify.handleSleep(wakeUp=>
-          {
+          return Asyncify.handleSleep(function (wakeUp) {
               function set_token(usr){
                   let jsToken = usr.access_token;
                   let lengthBytes = lengthBytesUTF8(jsToken)+1;
@@ -58,8 +59,9 @@ EM_JS(int , getUser, (), {
                   Module._set_token(stringOnWasmHeap);
                   Module._free(stringOnWasmHeap);
               }
-              var mgr = new Oidc.UserManager(JSON.parse(UTF8ToString(Module._get_config())));
-              mgr.getUser().then((user_) => {
+              var jsonConfig =UTF8ToString(Module._get_config());
+              var mgr = new Oidc.UserManager(JSON.parse(jsonConfig));
+              mgr.getUser().then(function (user_) {
                   if(user_ == null)
                   {
                       let session = {state: 'some data'};
@@ -72,8 +74,8 @@ EM_JS(int , getUser, (), {
                           wakeUp(0);
                       });
                   }else{
-                  set_token(user_);
-                  wakeUp(user_.expires_at);
+                      set_token(user_);
+                      wakeUp(user_.expires_at);
                   }
 
               }).catch(err =>
@@ -100,6 +102,11 @@ bool WASMAuth::isAuthenticated() const
     return true;
 }
 
+bool WASMAuth::isConfigured() const
+{
+    return configured;
+} 
+
 WASMAuth::~WASMAuth()
 {
     free(json_config_ptr);
@@ -110,18 +117,24 @@ void WASMAuth::updateConfig()
     std::lock_guard<std::mutex> lock(jsonLock);
     std::string currUrl  =val::global("location")["origin"].as<std::string>();
     make_json(currUrl);
+    // qInfo() << "c++ Updated config";
+    this->configured = true;
+    emit this->updatedConfig();
 }
 
-void WASMAuth::grant()
-{
-   std::lock_guard<std::mutex> lock(jsonLock);
-   QReadLocker locker (&OAuth2Config::get().getLock());
-   expiration = getUser();
-   if(expiration != 0)
-   {
+void WASMAuth::grant() {
+    // qInfo() << "c++ granting";
+    std::lock_guard<std::mutex> lock(jsonLock);
+    QReadLocker locker (&OAuth2Config::get().getLock());
+    // qInfo() << "c++ calling getUser";
+    expiration = getUser();
+    // qInfo() << "c++ called getUser";
+    if(expiration != 0)
+    {
        emit this->authenticatedChanged();
        emit this->emailChanged();
-   }
+    }
+    // qInfo() << "c++ granted";
 }
 
 QString WASMAuth::getEmail()

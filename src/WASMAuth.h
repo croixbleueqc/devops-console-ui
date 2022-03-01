@@ -15,6 +15,7 @@ public:
     bool isPermanent() const;
     void setPermanent(bool value);
     bool isAuthenticated() const;
+    bool isConfigured() const;
 
     ~WASMAuth();
 public slots:
@@ -25,6 +26,7 @@ private:
     time_t expiration =0;
     bool permanent{false};
     bool authenticated{false};
+    bool configured{false};
     QString getEmail();
     std::mutex jsonLock;
 };

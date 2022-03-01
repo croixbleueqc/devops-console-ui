@@ -19,6 +19,18 @@ SimpleLayout {
                 Store.defaultRouter.replace("WelcomePage.qml")
             }
         }
+        
+        function onUpdatedConfig(){
+            if(Auth.configured) {
+                console.log("config is configured")
+                // Fixme: Bug uncaught runtime error when Auth.grant() called on callback.
+                // Using two buttons (SSO and Login) as a workaround
+                // Auth.grant()
+            }else{
+                console.log("config not configured")
+            }
+        }
+       
     }
 
     ColumnLayout {
@@ -34,17 +46,23 @@ SimpleLayout {
             Layout.alignment: Qt.AlignHCenter
 
             text: qsTr("SSO")
-
-            onPressed:
+            visible: !Auth.configured
+            onClicked:
             {
-             Store.register("OAuth2")
+                Store.register("OAuth2")
             }
+        }  
+        Button {
+            Layout.alignment: Qt.AlignHCenter
 
+            text: qsTr("Login")
+            visible: Auth.configured
+            enabled: Auth.configured
             onClicked:
             {
                 Auth.grant()
             }
-        }    
+        }  
     }
 
 }

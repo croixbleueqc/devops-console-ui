@@ -8,7 +8,7 @@ WSNetworkAbstract {
     id: root
     com: WSComOne
     autoSend: true
-
+    
     request: "oauth2:read:/config"
     dataRequest:
     {
@@ -32,6 +32,7 @@ WSNetworkAbstract {
         AuthConfig.kScope = dataResponse.Config.kScope
         AuthConfig.unlock()
 
+        console.log("updated sso config on backend")
         Auth.updateConfig()
     }
 }

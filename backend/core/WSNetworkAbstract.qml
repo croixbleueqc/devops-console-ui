@@ -24,7 +24,7 @@ Item {
                 return
             }
 
-            if (obj.uniqueId === uniqueId) {
+            if (obj.uniqueId === uniqueId || uniqueId === "whitecard") {
                 // I'm the requester
 
                 if (obj.error !== undefined) {
